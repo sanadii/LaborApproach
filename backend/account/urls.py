@@ -13,6 +13,10 @@ app_name = 'account'
 
 
 urlpatterns = [
+    path('login/', LoginView.as_view(template_name='account/login.html', form_class=LoginForm), name='login'),
+
+
+    # ChatFusion
     # Users
     path('login/', LoginView.as_view(template_name='account/login.html', form_class=LoginForm), name='login'),
     path("userLogin", UserLogin.as_view(), name="UserLogin"),
@@ -29,10 +33,5 @@ urlpatterns = [
     path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path("token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
 
-
-    # ... your other URL patterns
-    # path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    # path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    # path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
 
 ]

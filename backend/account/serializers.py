@@ -8,7 +8,10 @@ from django.contrib.auth.models import Group, Permission
 class UserLoginSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'email', 'first_name', 'last_name', 'username', 'is_staff']
+        fields = '__all__' 
+        # fields = ["id", "name", "email", "first_name", "last_name"]
+        # fields = ["id", "name", "email", "first_name", "last_name"]
+        # fields = ['id', 'email', 'first_name', 'last_name', 'full_name', 'is_staff']
 
 
 # class UserCreateSerializer(serializers.ModelSerializer):
@@ -44,19 +47,20 @@ class UserLoginSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     """ Serializer for the Usel Model. """
-    admin_serializer_classes = (serializers.ModelSerializer,)
-    full_name = serializers.SerializerMethodField()
-    image = serializers.ImageField(required=False)
-    groups = serializers.SerializerMethodField()  # Changed the field name to 'names'
-    permissions = serializers.SerializerMethodField()
+    # admin_serializer_classes = (serializers.ModelSerializer,)
+    # full_name = serializers.SerializerMethodField()
+    # image = serializers.ImageField(required=False)
+    # groups = serializers.SerializerMethodField()  # Changed the field name to 'names'
+    # permissions = serializers.SerializerMethodField()
 
     class Meta:
         model = User
-        fields = ["id", "username", "email", "first_name", "last_name",
-                #   'phone', "image", 'civil', 'gender', 'date_of_birth', 'description',
+        fields = '__all__'
+        # fields = ["id", "name", "email", "first_name", "last_name",
+                #   'phone', "image", 'civil', 'gender', 'date_of_birth', 'description', 'full_name',
                 #   "full_name", 'twitter', 'instagram',
                 #   'is_staff', 'is_active', 'groups', 'permissions'
-                  ]
+                #   ]
 
     # def get_full_name(self, obj):
     #     return f"{obj.first_name} {obj.last_name}"
@@ -76,18 +80,18 @@ class UserSerializer(serializers.ModelSerializer):
     #     all_permissions = list(set(user_permissions + group_permissions))
     #     return all_permissions
 
-    def create(self, validated_data):
-        request = self.context.get('request')
-        user = request.user if request and hasattr(request, 'user') else None
-        instance = User.objects.create(**validated_data, created_by=user)
-        return instance
+    # def create(self, validated_data):
+    #     request = self.context.get('request')
+    #     user = request.user if request and hasattr(request, 'user') else None
+    #     instance = User.objects.create(**validated_data, created_by=user)
+    #     return instance
 
 
-    def update(self, instance, validated_data):
-        request = self.context.get('request')
-        user = request.user if request and hasattr(request, 'user') else None
-        if user:
-            instance.updated_by = user
-        return super().update(instance, validated_data)
+    # def update(self, instance, validated_data):
+    #     request = self.context.get('request')
+    #     user = request.user if request and hasattr(request, 'user') else None
+    #     if user:
+    #         instance.updated_by = user
+    #     return super().update(instance, validated_data)
 
 
