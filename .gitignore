@@ -1,0 +1,11 @@
+# Django #
+venv/ 
+*.pyc
+__pycache__/
+db.sqlite3 (if you're using SQLite)
+.DS_Store (for macOS users)
+staticfiles/
+media/
+
+# Frontend #
+node_modules/
