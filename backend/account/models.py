@@ -37,9 +37,12 @@ class User(AbstractBaseUser, PermissionsMixin):
         (MANAGER, 'Manager'),
     )
     
+    # id = models.BigAutoField(primary_key=True)
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     email = models.EmailField(unique=True)
     name = models.CharField(max_length=255, blank=True, default='')
+    # first_name = models.CharField(max_length=255, blank=True, default='')
+    # last_name = models.CharField(max_length=255, blank=True, default='')
     role = models.CharField(max_length=20, choices=ROLES_CHOICES, default=AGENT)
 
     is_active = models.BooleanField(default=True)
@@ -54,3 +57,4 @@ class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'email'
     EMAIL_FIELD = 'email'
     REQUIRED_FIELDS = ['name']
+    # REQUIRED_FIELDS = ['username', 'first_name']

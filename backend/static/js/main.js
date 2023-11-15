@@ -211,9 +211,7 @@ chatJoinElement.onclick = function(e) {
 
 chatSubmitElement.onclick = function(e) {
     e.preventDefault()
-
     sendMessage()
-
     return false
 }
 

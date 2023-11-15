@@ -102,10 +102,6 @@ class GetCurrentUser(APIView):
         user = request.user
         user_data = UserSerializer(user).data
 
-        # Get Related Campaigns. TODO: to be changed later for get Favourite // GetRelated Election / Campaigns
-        campaigns = get_current_user_campaigns(user)  # Call the function
-        user_data["campaigns"] = campaigns
-
         return Response({"data": user_data, "code": 200})
     
 class GetModeratorUsers(APIView):

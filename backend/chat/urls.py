@@ -1,4 +1,5 @@
-from django.urls import path
+from django.urls import path, include
+from .views import *
 
 from . import views
 
@@ -13,4 +14,10 @@ urlpatterns = [
     path('chat-admin/users/<uuid:uuid>/edit/', views.edit_user, name='edit_user'),
     path('chat-admin/<str:uuid>/', views.room, name='room'),
     path('chat-admin/<str:uuid>/delete/', views.delete_room, name='delete_room'),
+
+
+    # Frontend
+    path('chat/createRoom/<str:uuid>', CreateRoom.as_view(), name="CreateRoom"),
+    path('chat/addMessage/<str:id>', AddMessage.as_view(), name="CreateRoom"),
+
 ]

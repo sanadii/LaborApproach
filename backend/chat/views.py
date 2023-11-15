@@ -9,9 +9,14 @@ from django.views.decorators.http import require_POST
 
 from account.forms import AddUserForm, EditUserForm
 from account.models import User
+from rest_framework.views import APIView
+from rest_framework.permissions import AllowAny, IsAuthenticated
 
 from .models import Room
 
+from .serializers import MessageSerializer
+from rest_framework import status
+from rest_framework.response import Response
 
 @require_POST
 def create_room(request, uuid):
@@ -21,6 +26,32 @@ def create_room(request, uuid):
     Room.objects.create(uuid=uuid, client=name, url=url)
 
     return JsonResponse({'message': 'room created'})
+
+
+class CreateRoom(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request, uuid):
+        # Assuming you're sending data as JSON in the POST request
+        data = json.loads(request.body.decode('utf-8'))
+
+        name = data.get('name', '')
+        room_url = data.get('url', '')
+
+        Room.objects.create(uuid=uuid, client=name, url=room_url)
+
+        return JsonResponse({'message': 'Room created'})
+
+
+class AddMessage(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        serializer = MessageSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @login_required
