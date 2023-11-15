@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import useWebSocket, { ReadyState } from 'react-use-websocket';
 
-const ChatBubble = () => {
+const DemoWebSocket = () => {
   //Public API that will echo messages sent to it back to the client
   const [socketUrl, setSocketUrl] = useState('ws://127.0.0.1:8000/ws/rqylneurvm/');
   const [messageHistory, setMessageHistory] = useState([]);
@@ -51,4 +51,4 @@ const ChatBubble = () => {
   );
 };
 
-export default ChatBubble;
+export default DemoWebSocket;

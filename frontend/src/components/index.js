@@ -11,7 +11,7 @@ export { default as Prism } from "./Components/Prism";
 export { default as ProfileDropdown } from "./Components/ProfileDropdown";
 export { default as ReviewSlider } from "./Components/ReviewSlider";
 export { default as withRouter } from "./Components/withRouter";
-export { default as ChatBubble } from "./Components/DemoWebSocket";
+export { default as ChatBubble } from "./Components/ChatBubble";
 
 // Layout
 export { default as RightSidebar } from "./Components/RightSidebar";

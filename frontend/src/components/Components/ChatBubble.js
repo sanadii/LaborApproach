@@ -33,15 +33,6 @@ const ChatBubble = () => {
     console.log("socketUrl", socketUrl)
 
 
-    const { lastMessage } = useWebSocket(socketUrl);
-    const [messageHistory, setMessageHistory] = useState([]);
-
-    useEffect(() => {
-        if (lastMessage !== null) {
-            const receivedMessage = JSON.parse(lastMessage.data);
-            setMessageHistory(prev => [...prev, receivedMessage]);
-        }
-    }, [lastMessage]);
 
     const dispatch = useDispatch();
 
@@ -62,10 +53,28 @@ const ChatBubble = () => {
         dispatch(addNewChat(newChatRoom));
     };
 
+    
+    const { lastMessage } = useWebSocket(socketUrl);
+    const [messageHistory, setMessageHistory] = useState([]);
+
+    useEffect(() => {
+        if (lastMessage !== null) {
+            const receivedMessage = JSON.parse(lastMessage.data);
+            setMessageHistory(prev => [...prev, receivedMessage]);
+        }
+    }, [lastMessage]);
+
     const { sendMessage } = useWebSocket(socketUrl);
 
+
+
+    
     const userChatShow = useRef();
     const [customActiveTab, setcustomActiveTab] = useState("1");
+
+
+
+
 
     const ref = useRef();
     const [Chat_Box_Username, setChat_Box_Username] = useState("Lisa Parker");
@@ -109,16 +118,6 @@ const ChatBubble = () => {
     // });
 
 
-    //Use For Chat Box
-    const userChatOpen = (id, name, status, roomId, image) => {
-        setChat_Box_Username(name);
-        setCurrentRoomId(roomId);
-        setChat_Box_Image(image);
-        dispatch(getMessages(roomId));
-        if (window.innerWidth < 892) {
-            userChatShow.current.classList.add("user-chat-show");
-        }
-    };
 
     const backToUserChat = () => {
         userChatShow.current.classList.remove("user-chat-show");
@@ -152,17 +151,6 @@ const ChatBubble = () => {
     useEffect(() => {
         if (!isEmpty(messages)) scrollToBottom();
     }, [messages, scrollToBottom]);
-
-    const onKeyPress = (e) => {
-        const { key, value } = e;
-        if (key === "Enter") {
-            e.preventDefault();
-            setcurMessage(value);
-            addMessage(currentRoomId, currentUser.name);
-        }
-    };
-
-
 
     document.title = "Chat Fusion | Q8 Vision";
 
@@ -309,13 +297,6 @@ const ChatBubble = () => {
                                                                     ))}
                                                             </ul>
                                                         </PerfectScrollbar>
-                                                    </div>
-                                                    <div
-                                                        className="alert alert-warning alert-dismissible copyclipboard-alert px-4 fade show "
-                                                        id="copyClipBoard"
-                                                        role="alert"
-                                                    >
-                                                        Message copied
                                                     </div>
                                                 </div>
                                                 <div className="chat-input-section p-3 p-lg-4">
