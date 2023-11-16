@@ -75,7 +75,22 @@ export const AvatarList = ({ dirName, row }) => {
 };
 
 
+export const UserAvatar = ({ imagePath }) => {
+  const imageUrl = imagePath ? `${mediaUrl}${imagePath}` : `${mediaUrl}${defaultImagePath}`;
 
+  return (
+    <div className="d-flex align-items-center">
+      <div className="flex-shrink-0 chat-user-img online user-own-img align-self-center me-3 ms-0">
+        <img
+          src={imagePath}
+          className="rounded-circle avatar-xs"
+          alt=""
+        />
+      </div>
+    </div>
+
+  )
+}
 
 
 export const ImageMedium = ({ imagePath }) => {

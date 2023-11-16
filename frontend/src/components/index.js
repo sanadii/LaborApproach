@@ -54,5 +54,6 @@ export {
   ImageCandidateWinnerCircle,
   ImageMedium,
   ImageLarge,
+  UserAvatar,
 } from "./Images/ImageFrames";
 

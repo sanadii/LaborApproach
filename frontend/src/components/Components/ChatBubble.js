@@ -5,6 +5,7 @@ import { Button, Input, Row, Col, Card, CardBody } from "reactstrap";
 import { Link } from "react-router-dom";
 import { isEmpty, map } from "lodash";
 
+import { UserAvatar } from 'components';
 
 //redux
 import { useSelector, useDispatch } from "react-redux";
@@ -26,15 +27,66 @@ import "react-perfect-scrollbar/dist/css/styles.css";
 import { createSelector } from "reselect";
 
 const ChatBubble = () => {
+    const dispatch = useDispatch();
+
     const [isChatOpen, setIsChatOpen] = useState(false);
     const [isInChatRoom, setIsInChatRoom] = useState(false);
     const [chatName, setChatName] = useState(''); // State to store the user's name
     const [socketUrl, setSocketUrl] = useState(null);
-    console.log("socketUrl", socketUrl)
+    const [messageHistory, setMessageHistory] = useState([]);
+    const [curMessage, setcurMessage] = useState("");
+    const [currentUser, setCurrentUser] = useState({ name: '', isActive: true });
+    const [currentRoomId, setCurrentRoomId] = useState(1);
+
+    // Others
+    const ref = useRef();
+    const [Chat_Box_Username, setChat_Box_Username] = useState('');
+    const [Chat_Box_Image, setChat_Box_Image] = useState(avatar2);
+    const [messageBox, setMessageBox] = useState(null);
+    const [reply, setreply] = useState("");
 
 
+    console.log("Chat_Box_Image", Chat_Box_Image)
 
-    const dispatch = useDispatch();
+    // WebSocket connection
+    const { lastMessage } = useWebSocket(socketUrl);
+
+    // Redux state selectors
+    const selectLayoutState = (state) => state.chat;
+    const selectLayoutProperties = createSelector(
+        selectLayoutState,
+        (msg) => ({
+            chats: msg.chats,
+            messages: msg.messages,
+            channels: msg.channels,
+
+        })
+    );
+
+    const { chats, messages, channels } = useSelector(selectLayoutProperties);
+
+    const scrollToBottom = useCallback(() => {
+        if (messageBox) {
+            messageBox.scrollTop = messageBox.scrollHeight + 1000;
+        }
+    }, [messageBox]);
+    useEffect(() => {
+        if (lastMessage !== null) {
+            const receivedMessage = JSON.parse(lastMessage.data);
+            setMessageHistory(prev => [...prev, receivedMessage]);
+        }
+    }, [lastMessage]);
+
+    useEffect(() => {
+        dispatch(onGetDirectContact());
+        dispatch(onGetChannels());
+        dispatch(getMessages(currentRoomId));
+    }, [dispatch, currentRoomId]);
+
+    useEffect(() => {
+        if (!isEmpty(messages)) scrollToBottom();
+    }, [messages, scrollToBottom]);
+
 
     const toggleChat = () => setIsChatOpen(!isChatOpen);
 
@@ -48,91 +100,27 @@ const ChatBubble = () => {
             url: chatWindowUrl,
         }
         console.log("chatRoomUuid", chatRoomUuid)
-
+        setCurrentUser({
+            name: chatName,
+            isActive: true,
+        })
+        setChat_Box_Username(chatName)
         setSocketUrl(`ws://127.0.0.1:8000/ws/${chatRoomUuid}/`); // Set the WebSocket URL
         dispatch(addNewChat(newChatRoom));
     };
 
-    
-    const { lastMessage } = useWebSocket(socketUrl);
-    const [messageHistory, setMessageHistory] = useState([]);
-
-    useEffect(() => {
-        if (lastMessage !== null) {
-            const receivedMessage = JSON.parse(lastMessage.data);
-            setMessageHistory(prev => [...prev, receivedMessage]);
-        }
-    }, [lastMessage]);
-
-    const { sendMessage } = useWebSocket(socketUrl);
-
-
-
-    
-    const userChatShow = useRef();
-    const [customActiveTab, setcustomActiveTab] = useState("1");
-
-
-
-
-
-    const ref = useRef();
-    const [Chat_Box_Username, setChat_Box_Username] = useState("Lisa Parker");
-    const [Chat_Box_Image, setChat_Box_Image] = useState(avatar2);
-    const [currentRoomId, setCurrentRoomId] = useState(1);
-    const [messageBox, setMessageBox] = useState(null);
-    const [curMessage, setcurMessage] = useState("");
-    const [reply, setreply] = useState("");
-    const [currentUser, setCurrentUser] = useState({
-        name: "Anna Adame",
-        isActive: true,
-    });
-
-
-    const selectLayoutState = (state) => state.chat;
-    const selectLayoutProperties = createSelector(
-        selectLayoutState,
-        (msg) => ({
-            chats: msg.chats,
-            messages: msg.messages,
-            channels: msg.channels,
-
-        })
-    );
-
-    // Inside your component
-    const {
-        chats,
-        messages,
-        channels,
-    } = useSelector(selectLayoutProperties);
-
-    useEffect(() => {
-        dispatch(onGetDirectContact());
-        dispatch(onGetChannels());
-        dispatch(getMessages(currentRoomId));
-    }, [dispatch, currentRoomId]);
-
-    // useEffect(() => {
-    //   ref.current.recalculate();
-    // });
-
-
-
-    const backToUserChat = () => {
-        userChatShow.current.classList.remove("user-chat-show");
-    }
-
     const addMessage = () => {
         if (!curMessage.trim()) return; // Prevent sending empty messages
 
-        // Construct the message object
         const message = {
             type: 'message',
             message: curMessage,
             name: currentUser.name,
             roomId: currentRoomId,
         };
+
+        // Add message to history for instant UI update
+        setMessageHistory(prev => [...prev, message]);
 
         // Send the message over WebSocket
         sendMessage(JSON.stringify(message));
@@ -141,16 +129,46 @@ const ChatBubble = () => {
         setcurMessage("");
     };
 
+    const backToUserChat = () => {
+        userChatShow.current.classList.remove("user-chat-show");
+    }
 
-    const scrollToBottom = useCallback(() => {
-        if (messageBox) {
-            messageBox.scrollTop = messageBox.scrollHeight + 1000;
-        }
-    }, [messageBox]);
 
-    useEffect(() => {
-        if (!isEmpty(messages)) scrollToBottom();
-    }, [messages, scrollToBottom]);
+
+
+
+
+
+
+    const { sendMessage } = useWebSocket(socketUrl);
+
+
+
+
+    const userChatShow = useRef();
+    const [customActiveTab, setcustomActiveTab] = useState("1");
+
+
+
+
+
+
+
+
+    // Inside your component
+
+
+
+    // useEffect(() => {
+    //   ref.current.recalculate();
+    // });
+
+
+
+
+
+
+
 
     document.title = "Chat Fusion | Q8 Vision";
 
@@ -159,7 +177,7 @@ const ChatBubble = () => {
         <Card>
             <div className="customizer-setting d-none d-md-block">
                 {isChatOpen ? (
-                    <div className="max-w-[300px] max-h-[600px] fixed right-2 bottom-2 p-2 bg-white border border-gray-300 rounded-xl">
+                    <div className="max-w-[400px] max-h-[600px] fixed right-2 bottom-2 p-2 bg-white border border-gray-300 rounded-xl">
                         {!isInChatRoom ? (
                             // Name input area
                             <div id="chat_welcome">
@@ -201,23 +219,7 @@ const ChatBubble = () => {
                                                                 </div>
                                                                 <div className="flex-grow-1 overflow-hidden">
                                                                     <div className="d-flex align-items-center">
-                                                                        <div className="flex-shrink-0 chat-user-img online user-own-img align-self-center me-3 ms-0">
-                                                                            {Chat_Box_Image === undefined ? (
-                                                                                <img
-                                                                                    src={userDummayImage}
-                                                                                    className="rounded-circle avatar-xs"
-                                                                                    alt=""
-                                                                                />
-                                                                            ) : (
-                                                                                <img
-                                                                                    src={Chat_Box_Image}
-                                                                                    className="rounded-circle avatar-xs"
-                                                                                    alt=""
-                                                                                />
-                                                                            )}
-                                                                            <span className="user-status"></span>
-                                                                        </div>
-                                                                        <div className="flex-grow-1 overflow-hidden">
+                                                                        <UserAvatar imagePath={Chat_Box_Image} />                                                                        <div className="flex-grow-1 overflow-hidden">
                                                                             <h5 className="text-truncate mb-0 fs-16">
                                                                                 <a
                                                                                     className="text-reset username"
@@ -225,7 +227,7 @@ const ChatBubble = () => {
                                                                                     href="#userProfileCanvasExample"
                                                                                     aria-controls="userProfileCanvasExample"
                                                                                 >
-                                                                                    {Chat_Box_Username}
+                                                                                    {currentUser.name}
                                                                                 </a>
                                                                             </h5>
                                                                             <p className="text-truncate text-muted fs-14 mb-0 userStatus">
@@ -239,27 +241,21 @@ const ChatBubble = () => {
                                                     </Row>
                                                 </div>
 
+                                                {/* Msg Box */}
                                                 <div className="position-relative" id="users-chat">
                                                     <div className="chat-conversation p-3 p-lg-4" id="chat-conversation">
                                                         <PerfectScrollbar
                                                             containerRef={ref => setMessageBox(ref)} >
                                                             <div id="elmLoader"></div>
-                                                            <ul
-                                                                className="list-unstyled chat-conversation-list"
-                                                                id="users-conversation"
-                                                            >
-                                                                {messages &&
-                                                                    map(messages, (message, key) => (
+                                                            <ul className="list-unstyled chat-conversation-list" id="users-conversation">
+                                                                {messageHistory &&
+                                                                    messageHistory.map((message, key) => (
                                                                         <li
-                                                                            className={
-                                                                                message.sender === Chat_Box_Username
-                                                                                    ? " chat-list left"
-                                                                                    : "chat-list right"
-                                                                            }
+                                                                            className={message.sender === currentUser.name ? "chat-list left" : "chat-list right"}
                                                                             key={key}
                                                                         >
                                                                             <div className="conversation-list">
-                                                                                {message.sender === Chat_Box_Username && (
+                                                                                {message.sender === currentUser.name && (
                                                                                     <div className="chat-avatar">
                                                                                         {Chat_Box_Image === undefined ?
                                                                                             <img
@@ -299,6 +295,8 @@ const ChatBubble = () => {
                                                         </PerfectScrollbar>
                                                     </div>
                                                 </div>
+
+                                                {/* Add Msg */}
                                                 <div className="chat-input-section p-3 p-lg-4">
                                                     <form id="chatinput-form">
                                                         <Row className="g-0 align-items-center">
