@@ -1,46 +1,39 @@
 import React, { useEffect, useState, useCallback, useRef } from "react";
 import useWebSocket from 'react-use-websocket';
-
+import { userSelector, chatSelector } from 'Selectors';
 import { Button, Input, Row, Col, Card, CardBody } from "reactstrap";
 import { Link } from "react-router-dom";
-import { isEmpty, map } from "lodash";
-
+import { isEmpty } from "lodash";
 import { UserAvatar } from 'components';
-
-//redux
 import { useSelector, useDispatch } from "react-redux";
-import {
-    addNewChat,
-    getDirectContact as onGetDirectContact,
-    getMessages,
-    getChannels as onGetChannels,
-    addMessage as onAddMessage,
-    deleteMessage as onDeleteMessage
-} from "store/actions";
-
+import { addNewChat, getMessages } from "store/actions";
 import avatar2 from "assets/images/users/avatar-2.jpg";
-import userDummayImage from "assets/images/users/avatar-2.jpg";
-
-//Import Scrollbar
 import PerfectScrollbar from "react-perfect-scrollbar";
 import "react-perfect-scrollbar/dist/css/styles.css";
-import { createSelector } from "reselect";
+
 
 const ChatBubble = () => {
     const dispatch = useDispatch();
 
+    // State Manager
+    const { user } = useSelector(userSelector);
+    const { messages } = useSelector(chatSelector);
+
+    // Constants
     const [isChatOpen, setIsChatOpen] = useState(false);
     const [isInChatRoom, setIsInChatRoom] = useState(false);
     const [chatName, setChatName] = useState(''); // State to store the user's name
     const [socketUrl, setSocketUrl] = useState(null);
     const [messageHistory, setMessageHistory] = useState([]);
     const [curMessage, setcurMessage] = useState("");
-    const [currentUser, setCurrentUser] = useState({ name: '', isActive: true });
+    const [currentUser, setCurrentUser] = useState({ id: user.id, name: user.name, isActive: true });
     const [currentRoomId, setCurrentRoomId] = useState(1);
+
+    
+    console.log("currentUser", currentUser)
 
     // Others
     const ref = useRef();
-    const [Chat_Box_Username, setChat_Box_Username] = useState('');
     const [Chat_Box_Image, setChat_Box_Image] = useState(avatar2);
     const [messageBox, setMessageBox] = useState(null);
     const [reply, setreply] = useState("");
@@ -50,20 +43,7 @@ const ChatBubble = () => {
 
     // WebSocket connection
     const { lastMessage } = useWebSocket(socketUrl);
-
-    // Redux state selectors
-    const selectLayoutState = (state) => state.chat;
-    const selectLayoutProperties = createSelector(
-        selectLayoutState,
-        (msg) => ({
-            chats: msg.chats,
-            messages: msg.messages,
-            channels: msg.channels,
-
-        })
-    );
-
-    const { chats, messages, channels } = useSelector(selectLayoutProperties);
+    const { sendMessage } = useWebSocket(socketUrl);
 
     const scrollToBottom = useCallback(() => {
         if (messageBox) {
@@ -78,8 +58,6 @@ const ChatBubble = () => {
     }, [lastMessage]);
 
     useEffect(() => {
-        dispatch(onGetDirectContact());
-        dispatch(onGetChannels());
         dispatch(getMessages(currentRoomId));
     }, [dispatch, currentRoomId]);
 
@@ -93,18 +71,18 @@ const ChatBubble = () => {
     const joinChat = () => {
         setIsInChatRoom(true);
         const chatRoomUuid = Math.random().toString(36).slice(2, 12);
-        const chatWindowUrl = window.location.href;
         const newChatRoom = {
             uuid: chatRoomUuid,
             name: chatName,
-            url: chatWindowUrl,
+            url: window.location.href,
+            // user: user.id,
+            // client: user.id,
         }
-        console.log("chatRoomUuid", chatRoomUuid)
+        console.log("newChatRoom", newChatRoom)
         setCurrentUser({
             name: chatName,
             isActive: true,
         })
-        setChat_Box_Username(chatName)
         setSocketUrl(`ws://127.0.0.1:8000/ws/${chatRoomUuid}/`); // Set the WebSocket URL
         dispatch(addNewChat(newChatRoom));
     };
@@ -119,13 +97,8 @@ const ChatBubble = () => {
             roomId: currentRoomId,
         };
 
-        // Add message to history for instant UI update
         setMessageHistory(prev => [...prev, message]);
-
-        // Send the message over WebSocket
         sendMessage(JSON.stringify(message));
-
-        // Clear the input after sending
         setcurMessage("");
     };
 
@@ -133,42 +106,11 @@ const ChatBubble = () => {
         userChatShow.current.classList.remove("user-chat-show");
     }
 
-
-
-
-
-
-
-
-    const { sendMessage } = useWebSocket(socketUrl);
-
-
-
-
     const userChatShow = useRef();
-    const [customActiveTab, setcustomActiveTab] = useState("1");
-
-
-
-
-
-
-
-
-    // Inside your component
-
-
 
     // useEffect(() => {
     //   ref.current.recalculate();
     // });
-
-
-
-
-
-
-
 
     document.title = "Chat Fusion | Q8 Vision";
 
@@ -247,7 +189,10 @@ const ChatBubble = () => {
                                                         <PerfectScrollbar
                                                             containerRef={ref => setMessageBox(ref)} >
                                                             <div id="elmLoader"></div>
-                                                            <ul className="list-unstyled chat-conversation-list" id="users-conversation">
+                                                            <ul
+                                                                className="list-unstyled chat-conversation-list"
+                                                                id="users-conversation"
+                                                            >
                                                                 {messageHistory &&
                                                                     messageHistory.map((message, key) => (
                                                                         <li
@@ -255,11 +200,11 @@ const ChatBubble = () => {
                                                                             key={key}
                                                                         >
                                                                             <div className="conversation-list">
-                                                                                {message.sender === currentUser.name && (
-                                                                                    <div className="chat-avatar">
+                                                                                {message.name === currentUser.name && (
+                                                                                    < div className="chat-avatar">
                                                                                         {Chat_Box_Image === undefined ?
                                                                                             <img
-                                                                                                src={userDummayImage}
+                                                                                                src={avatar2}
                                                                                                 alt=""
                                                                                             />
                                                                                             :
@@ -270,7 +215,6 @@ const ChatBubble = () => {
                                                                                         }
                                                                                     </div>
                                                                                 )}
-
                                                                                 <div className="user-chat-content">
                                                                                     <div className="ctext-wrap">
                                                                                         <div className="ctext-wrap-content">
@@ -362,7 +306,7 @@ const ChatBubble = () => {
                         <i className="mdi mdi-chat-outline fs-22"></i>
                     </Button>}
             </div>
-        </Card>
+        </Card >
     );
 };
 

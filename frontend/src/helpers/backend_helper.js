@@ -60,9 +60,10 @@ export const postSocialLogin = (data) => api.create(url.SOCIAL_LOGIN, data);
 
 // Chat
 export const getDirectContact = () => api.get(url.GET_DIRECT_CONTACT);
-export const getMessages = roomId => api.get(`${url.GET_MESSAGES}/${roomId}`, { params: { roomId } });
+export const getMessages = (roomId) => api.get(url.GET_MESSAGES + "/" + roomId);
 
-
+// Rooms
+export const getChatRooms = () => api.get(url.GET_CHAT_ROOMS);
 export const addNewChat = (chatRoom) => api.create(url.ADD_NEW_CHAT + "/" + chatRoom.uuid, chatRoom);
 
 // export const addNewChat = (data) => { api.create(url.ADD_NEW_CHAT, data) };

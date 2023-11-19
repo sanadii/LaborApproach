@@ -4,8 +4,7 @@ from account.models import User
 
 
 class Message(models.Model):
-    body = models.TextField()
-    sent_by = models.CharField(max_length=255)
+    message = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(User, blank=True, null=True, on_delete=models.SET_NULL)
 
@@ -13,8 +12,7 @@ class Message(models.Model):
         ordering = ('created_at',)
     
     def __str__(self):
-        return f'{self.sent_by}'
-
+        return f'{self.created_by}'
 
 class Room(models.Model):
     WAITING = 'waiting'
@@ -27,12 +25,25 @@ class Room(models.Model):
         (CLOSED, 'Closed'),
     )
 
-    uuid = models.CharField(max_length=255)
-    client = models.CharField(max_length=255)
-    agent = models.ForeignKey(User, related_name='rooms', blank=True, null=True, on_delete=models.SET_NULL)
-    messages = models.ManyToManyField(Message, blank=True)
+    uuid = models.CharField(max_length=255, unique=True)
     url = models.CharField(max_length=255, blank=True, null=True)
+    messages = models.ManyToManyField(Message, blank=True)
     status = models.CharField(max_length=20, choices=CHOICES_STATUS, default=WAITING)
+
+    participants = models.ManyToManyField(
+        User, 
+        through='RoomParticipant', 
+        blank=True,
+        related_name='participant_rooms'  # And/or here
+    )
+
+    created_by = models.ForeignKey(
+        User, 
+        on_delete=models.SET_NULL, 
+        null=True, 
+        blank=True,
+        related_name='user_rooms'  # Add a related_name here
+    )
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -40,3 +51,30 @@ class Room(models.Model):
     
     def __str__(self):
         return f'{self.client} - {self.uuid}'
+    name=models.CharField(max_length=255)
+    participants = models.ManyToManyField(
+        User, 
+        through='RoomParticipant', 
+        blank=True,
+        related_name='participant_rooms'  # And/or here
+    )
+class ChatRoomParticipant(models.Model):
+    room = models.ForeignKey(Room, on_delete=models.CASCADE)
+    joined_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'chat_room_participant'
+        verbose_name = "Chat Room Participant"
+        verbose_name_plural = "Chat Room Participants"
+        default_permissions = []
+class RoomParticipant(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    room = models.ForeignKey(Room, on_delete=models.CASCADE)
+    joined_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'chat_room_participant'
+        verbose_name = "Chat Room Participant"
+        verbose_name_plural = "Chat Room Participants"
+        default_permissions = []
+

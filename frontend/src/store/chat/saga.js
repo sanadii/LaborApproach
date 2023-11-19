@@ -5,6 +5,10 @@ import {
   GET_DIRECT_CONTACT,
   GET_MESSAGES,
   GET_CHANNELS,
+
+  // Chat Rooms
+  GET_CHAT_ROOMS,
+
   ADD_NEW_CHAT,
   ADD_MESSAGE,
   DELETE_MESSAGE,
@@ -22,6 +26,9 @@ import {
   getDirectContact as getDirectContactApi,
   getMessages as getMessagesApi,
   getChannels as getChannelsApi,
+
+  // Chat Rooms
+  getChatRooms as getChatRoomsApi,
   addNewChat as addNewChatApi,
   addMessage as addMessageApi,
   deleteMessage as deleteMessageApi,
@@ -54,6 +61,15 @@ function* getMessages({ roomId }) {
   }
 }
 
+
+function* getChatRooms() {
+  try {
+    const response = yield call(getChatRoomsApi);
+    yield put(chatsApiResponseSuccess(GET_CHAT_ROOMS, response));
+  } catch (error) {
+    yield put(chatsApiResponseError(GET_CHAT_ROOMS, error));
+  }
+}
 function* addNewChat({ payload: message }) {
   try {
     const response = yield call(addNewChatApi, message);
@@ -92,6 +108,9 @@ export function* watchOnGetChannels() {
 }
 
 // Chat Room
+export function* watchOnGetChatRooms() {
+  yield takeEvery(GET_CHAT_ROOMS, getChatRooms);
+}
 export function* watchOnAddNewChat() {
   yield takeEvery(ADD_NEW_CHAT, addNewChat);
 }
@@ -110,6 +129,7 @@ function* chatSaga() {
     fork(watchOnGetMessages),
 
     // Chat Room
+    fork(watchOnGetChatRooms),
     fork(watchOnAddNewChat),
 
     fork(watchOnAddMessage),

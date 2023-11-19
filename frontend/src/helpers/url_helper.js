@@ -8,8 +8,11 @@ export const POST_REGISTER = "/account/signup";
 
 // Chat
 export const GET_DIRECT_CONTACT = "/chat";
-export const GET_MESSAGES = "/messages";
+export const GET_MESSAGES = "chat/getChatMessages";
 export const ADD_MESSAGE = "chat/addMessage";
+
+// Chat Room
+export const GET_CHAT_ROOMS = "chat/getChatRooms";
 export const ADD_NEW_CHAT = "chat/createRoom";
 export const GET_CHANNELS = "/channels";
 export const DELETE_MESSAGE = "delete/message";

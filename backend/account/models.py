@@ -37,8 +37,8 @@ class User(AbstractBaseUser, PermissionsMixin):
         (MANAGER, 'Manager'),
     )
     
-    # id = models.BigAutoField(primary_key=True)
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id = models.BigAutoField(primary_key=True)
+    # uuid = models.UUIDField(editable=False)
     email = models.EmailField(unique=True)
     name = models.CharField(max_length=255, blank=True, default='')
     # first_name = models.CharField(max_length=255, blank=True, default='')

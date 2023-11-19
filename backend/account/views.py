@@ -1,19 +1,29 @@
-from django.http.response import JsonResponse
+import json
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
+from django.http import JsonResponse
+from django.shortcuts import render, redirect
+from django.views.decorators.http import require_POST
+
+from account.forms import AddUserForm, EditUserForm
+from account.models import User
+from rest_framework.views import APIView
+from rest_framework.permissions import AllowAny, IsAuthenticated
+
+from .serializers import UserSerializer, UserLoginSerializer
+from rest_framework import status
+from rest_framework.response import Response
+
+
+
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from django.core.exceptions import ObjectDoesNotExist
 
-from rest_framework import status
-from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
-from rest_framework.permissions import AllowAny, IsAuthenticated
-from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken, AccessToken
-from rest_framework.views import APIView
 
 
-from .models import User
-from .serializers import UserSerializer, UserLoginSerializer
 
 @method_decorator(csrf_exempt, name='dispatch')
 class UserLogin(APIView):
@@ -54,7 +64,6 @@ class ChangeUserPassword(APIView):
         user.set_password(new_password)
         user.save()
         return Response({'status': 'password set'}, status=status.HTTP_200_OK)
-
 
 
 class UserProfileUpdateAPIView(APIView):
@@ -228,3 +237,5 @@ class DeleteGroup(APIView):
             return JsonResponse({"data": "Group deleted successfully", "count": 1, "code": 200}, safe=False)
         except Group.DoesNotExist:
             return JsonResponse({"data": "Group not found", "count": 0, "code": 404}, safe=False)
+
+

@@ -41,26 +41,26 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
 
     async def receive(self, text_data):
-        # Receive message from WebSocket (front end)
         text_data_json = json.loads(text_data)
+        print("Received JSON:", text_data_json)
+
         type = text_data_json['type']
         message = text_data_json['message']
-        name = text_data_json['name']
-        agent = text_data_json.get('agent', '')
+        created_by = text_data_json.get('createdBy', None)  # Corrected key
 
-        print('Receive:', type)
+        print('Received created_by:', created_by)
+        # ... rest of your code ...
+
 
         if type == 'message':
-            new_message = await self.create_message(name, message, agent)
+            new_message = await self.create_message(message, created_by)
 
             # Send message to group / room
             await self.channel_layer.group_send(
                 self.room_group_name, {
                     'type': 'chat_message',
                     'message': message,
-                    'name': name,
-                    'agent': agent,
-                    'initials': initials(name),
+                    'created_by': created_by,
                     'created_at': timesince(new_message.created_at),
                 }
             )
@@ -71,9 +71,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 self.room_group_name, {
                     'type': 'writing_active',
                     'message': message,
-                    'name': name,
-                    'agent': agent,
-                    'initials': initials(name),
+                    'created_by': created_by,
                 }
             )
 
@@ -83,9 +81,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         await self.send(text_data=json.dumps({
             'type': event['type'],
             'message': event['message'],
-            'name': event['name'],
-            'agent': event['agent'],
-            'initials': event['initials'],
+            'createdBy': event['created_by'],
             'created_at': event['created_at'],
         }))
 
@@ -96,7 +92,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
             'type': event['type'],
             'message': event['message'],
             'name': event['name'],
-            'agent': event['agent'],
+            'created_by': event['created_by'],
             'initials': event['initials'],
         }))
     
@@ -121,13 +117,20 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
 
     @sync_to_async
-    def create_message(self, sent_by, message, agent):
-        message = Message.objects.create(body=message, sent_by=sent_by)
+    def create_message(self, message, created_by):
+        print("Creating message with created_by:", created_by)
+        new_message = None
 
-        if agent:
-            message.created_by = User.objects.get(pk=agent)
-            message.save()
-        
-        self.room.messages.add(message)
+        if created_by:
+            try:
+                user = User.objects.get(pk=created_by)
+                new_message = Message.objects.create(message=message, created_by=user)
+                print("Assigned user:", user)
+            except User.DoesNotExist:
+                print("User not found for ID:", created_by)
+                # Handle the case where the user does not exist
 
-        return message
+        if new_message:
+            self.room.messages.add(new_message)
+
+        return new_message

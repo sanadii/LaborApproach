@@ -8,11 +8,13 @@ import {
   GET_MESSAGES_SUCCESS,
   GET_MESSAGES_FAIL,
   GET_CHANNELS,
+  GET_CHAT_ROOMS,
   ADD_MESSAGE,
   DELETE_MESSAGE
 } from "./actionType";
 
 const INIT_STATE = {
+  chatRooms: [],
   chats: [],
   messages: {},
   channels: [],
@@ -27,6 +29,13 @@ const Chats = (state = INIT_STATE, action) => {
           return {
             ...state,
             chats: action.payload.data,
+          };
+
+        // Chats
+        case GET_CHAT_ROOMS:
+          return {
+            ...state,
+            chatRooms: action.payload.data.rooms,
           };
         case ADD_NEW_CHAT:
           return {
@@ -60,6 +69,13 @@ const Chats = (state = INIT_STATE, action) => {
             ...state,
             error: action.payload.error,
           };
+
+        // Chat Rooms
+        case GET_CHAT_ROOMS:
+          return {
+            ...state,
+            error: action.payload.error,
+          };
         case ADD_NEW_CHAT:
           return {
             ...state,
@@ -86,6 +102,11 @@ const Chats = (state = INIT_STATE, action) => {
       }
 
     case GET_DIRECT_CONTACT: {
+      return {
+        ...state,
+      };
+    }
+    case GET_CHAT_ROOMS: {
       return {
         ...state,
       };

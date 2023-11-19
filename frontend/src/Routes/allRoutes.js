@@ -42,8 +42,8 @@ import CampaignDetails from "pages/Campaigns/CampaignDetails";
 
 // User Pages
 import UserList from "pages/Users/UserList";
-
-
+import ChatRoomGrid from "pages/ChatRooms/ChatRoomGrid";
+import ChatRooms from "pages/ChatRooms/ChatRooms";
 
 // Public Pages
 // Elections
@@ -108,6 +108,8 @@ const authProtectedRoutes = [
   { path: "/admin/candidates/", component: <CandidateList /> },
   { path: "/admin/elections/", component: <ElectionList /> },
   { path: "/admin/users/", component: <UserList /> },
+  { path: "/admin/chat-grid/", component: <ChatRoomGrid /> },
+  { path: "/admin/chat-rooms/", component: <ChatRooms /> },
 
 
 

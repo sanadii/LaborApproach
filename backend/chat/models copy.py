@@ -62,7 +62,7 @@ class Room(models.Model):
 
 class Message(models.Model):
     room = models.ForeignKey(Room, related_name='messages', on_delete=models.CASCADE)
-    body = models.TextField()
+    message = models.TextField()
     sent_by = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(User, blank=True, null=True, on_delete=models.SET_NULL)

@@ -7,16 +7,18 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.views.decorators.http import require_POST
 
-from account.forms import AddUserForm, EditUserForm
-from account.models import User
+from rest_framework import status, serializers
+from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 
-from .models import Room
+from .models import Room, Message, RoomParticipant
+from .serializers import MessageSerializer, RoomSerializer
 
-from .serializers import MessageSerializer
-from rest_framework import status
-from rest_framework.response import Response
+from account.forms import AddUserForm, EditUserForm
+from account.models import User
+from account.serializers import UserSerializer
+
 
 @require_POST
 def create_room(request, uuid):
@@ -29,18 +31,24 @@ def create_room(request, uuid):
 
 
 class CreateRoom(APIView):
-    permission_classes = [AllowAny]
+    def post(self, request, *args, **kwargs):
+        data = request.data
 
-    def post(self, request, uuid):
-        # Assuming you're sending data as JSON in the POST request
-        data = json.loads(request.body.decode('utf-8'))
+        # Create a new UUID for the room
+        uuid = data.get('uuid') or data['uuid']  # Add the UUID to the data
 
-        name = data.get('name', '')
-        room_url = data.get('url', '')
+        data['uuid'] = str(uuid)  # Convert UUID to string if necessary
 
-        Room.objects.create(uuid=uuid, client=name, url=room_url)
+        serializer = RoomSerializer(data=data)
+        if serializer.is_valid():
+            room = serializer.save()
 
-        return JsonResponse({'message': 'Room created'})
+            # Add the current user as a participant
+            RoomParticipant.objects.create(user=request.user, room=room)
+
+            return Response({"data": serializer.data, "count": 0, "code": 200}, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class AddMessage(APIView):
@@ -53,6 +61,45 @@ class AddMessage(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class GetChatRooms(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request, format=None):
+        rooms = Room.objects.all()
+        users = User.objects.all()
+
+        # Serialize the data
+        room_serializer = RoomSerializer(rooms, many=True)
+        user_serializer = UserSerializer(users, many=True)
+
+        # Prepare the response data
+        response_data = {
+            'rooms': room_serializer.data,
+            'users': user_serializer.data
+        }
+
+        return Response(response_data, status=status.HTTP_200_OK)
+
+
+class GetChatMessages(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request, id, format=None):
+        messages = Message.objects.filter(room__id=id).order_by('created_at')
+        serializer = MessageSerializer(messages, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+# class GetChatRooms(LoginRequiredMixin, ListView):
+#     template_name = 'chat/admin.html'
+#     context_object_name = 'rooms'
+
+#     def get_queryset(self):
+#         return Room.objects.all()
+
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context['users'] = User.objects.filter(is_staff=True)
+#         return context
 
 @login_required
 def admin(request):
@@ -94,6 +141,8 @@ def delete_room(request, uuid):
         return redirect('/chat-admin/')
 
 
+# Backend User/Chat
+# Backend Views
 @login_required
 def user_detail(request, uuid):
     user = User.objects.get(pk=uuid)

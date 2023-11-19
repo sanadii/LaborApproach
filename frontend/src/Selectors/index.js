@@ -1,4 +1,9 @@
 // Selectors/index.js
+
+
+// Chat
+export { chatSelector } from './chatSelector';
+
 export { electionSelector } from './electionSelector';
 export { candidateSelector } from './candidateSelector';
 export { campaignSelector } from './campaignSelector';

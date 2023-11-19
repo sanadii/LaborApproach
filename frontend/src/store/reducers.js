@@ -12,7 +12,7 @@ import Users from "./auth/users/reducer";
 import Groups from "./groups/reducer";
 
 // Messages
-import chat from "./chat/reducer";
+import Chat from "./chat/reducer";
 
 
 // Elections
@@ -51,7 +51,7 @@ const rootReducer = combineReducers({
 
 
     // Chat
-    chat,
+    Chat,
     // Project
     Elections,
     Candidates,

@@ -1,42 +1,42 @@
 import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Card, CardBody, Col, Container, Row } from "reactstrap";
-import { BreadCrumb, ImageCampaignCard } from "components";
+import { BreadCrumb } from "components";
 import { userSelector, campaignSelector, categorySelector } from 'Selectors';
 
 import { Link } from "react-router-dom";
 
-import { getCampaigns, getModeratorUsers, getCategories } from "store/actions";
+import { getChatRooms, getModeratorUsers, getCategories } from "store/actions";
 
 
-const CampaignGrid = () => {
+const ChatRoomGrid = () => {
   const dispatch = useDispatch();
 
-  document.title = "Campaigns - Q8 TASWEET APP";
+  document.title = "ChatRooms - Q8 TASWEET APP";
 
   // State Management
-  const { campaigns, isCampaignSuccess, error } = useSelector(campaignSelector);
+  const { campaigns, isChatRoomSuccess, error } = useSelector(campaignSelector);
   const { moderators, user } = useSelector(userSelector);
   const { categories, subCategories } = useSelector(categorySelector);
 
   // Constant Management
-  const [campaignList, setCampaignList] = useState(campaigns);
-  const [campaign, setCampaign] = useState([]);
+  const [campaignList, setChatRoomList] = useState(campaigns);
+  const [campaign, setChatRoom] = useState([]);
   const [category, setCategory] = useState([]);
   const [campaignCandidates, setcampaignCandidates] = useState([]);
   const [userName, setUserName] = useState("Admin");
   const [userId, setUserId] = useState(null);
   const [isEdit, setIsEdit] = useState(false);
 
-  // Campaign Data
+  // ChatRoom Data
   useEffect(() => {
     if (campaigns && !campaigns.length) {
-      dispatch(getCampaigns());
+      dispatch(getChatRooms());
     }
   }, [dispatch, campaigns]);
 
   useEffect(() => {
-    setCampaignList(campaigns);
+    setChatRoomList(campaigns);
   }, [campaigns]);
 
 
@@ -89,7 +89,7 @@ const CampaignGrid = () => {
               <div className="d-lg-flex align-items-center mb-4">
                 <div className="flex-grow-1">
                   <h5 className="card-title mb-0 fw-semibold fs-16">
-                    Campaigns
+                    ChatRooms
                   </h5>
                 </div>
               </div>
@@ -100,10 +100,6 @@ const CampaignGrid = () => {
             {campaignList.map((item, key) => (
               <Col key={key}>
                 <Card className="explore-box card-animate">
-                  <ImageCampaignCard
-                    imagePath={item.candidate.image}
-                    urlPath={`/campaigns/${item.id}`}
-                  />
                   <CardBody>
                     <h2 className="mb-1">
                       <Link to={`/campaigns/${item.id}`}>
@@ -135,4 +131,4 @@ const CampaignGrid = () => {
   );
 };
 
-export default CampaignGrid;
+export default ChatRoomGrid;
