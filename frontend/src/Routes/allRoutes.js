@@ -43,7 +43,7 @@ import CampaignDetails from "pages/Campaigns/CampaignDetails";
 // User Pages
 import UserList from "pages/Users/UserList";
 import ChatRoomGrid from "pages/ChatRooms/ChatRoomGrid";
-import ChatRooms from "pages/ChatRooms/ChatRooms";
+import ChatRooms from "pages/ChatRooms";
 
 // Public Pages
 // Elections

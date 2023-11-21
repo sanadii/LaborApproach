@@ -1,37 +1,22 @@
 import { Link } from "react-router-dom";
 
-const SideBarChatRooms = ({ chat, currentRoomId, userChatOpen }) => {
+const ChatSideBarRooms = ({ chat, currentRoomId, userChatOpen }) => {
+
     const handleChatOpen = (e) => {
-        e.preventDefault(); // Prevent default link behavior
+        e.preventDefault();
         userChatOpen(chat);
     };
 
     return (
         <li
             key={chat.id + chat.status}
-            className={currentRoomId === chat.roomUuid ? "active" : ""}
+            className={currentRoomId === chat.uuid ? "active" : ""}
         >
             <Link to="#" onClick={handleChatOpen}>
                 <div className="d-flex align-items-center">
                     <div className="flex-shrink-0 chat-user-img online align-self-center me-2 ms-0">
                         <div className="avatar-xxs">
-                            {chat.image ? (
-                                <img
-                                    src={chat.image}
-                                    className="rounded-circle img-fluid userprofile"
-                                    alt=""
-                                />
-                            ) : (
-                                <div
-                                    className={
-                                        "avatar-title rounded-circle bg-" +
-                                        chat.bgColor +
-                                        " userprofile"
-                                    }
-                                >
-                                    {/* {chat.name.charAt(0)} */}
-                                </div>
-                            )}
+                            <div className="avatar-xxs">{renderAvatar({ chat })}</div>
                         </div>
                         <span className="user-status"></span>
                     </div>
@@ -49,4 +34,19 @@ const SideBarChatRooms = ({ chat, currentRoomId, userChatOpen }) => {
     );
 };
 
-export default SideBarChatRooms;
+export default ChatSideBarRooms;
+
+
+const renderAvatar = ({ chat }) => {
+    if (chat.image) {
+        return (
+            <img src={chat.image} className="rounded-circle img-fluid userprofile" alt="" />
+        );
+    }
+    const avatarInitial = chat.createdByName ? chat.createdByName.charAt(0) : 'Nil';
+    return (
+        <div className={`avatar-title rounded-circle bg-${chat.bgColor} userprofile`}>
+            {avatarInitial}
+        </div>
+    );
+};

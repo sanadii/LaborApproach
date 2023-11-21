@@ -2,8 +2,8 @@ import React, { useState, useRef } from "react";
 import { Container } from "reactstrap";
 
 // Import Chat Components
-import ChatLeftSideBar from "./ChatLeftSideBar";
-import ChatBox from "./ChatBox";
+import ChatSideBar from "./ChatSideBar";
+import ChatMain from "./ChatMain";
 
 
 const ChatRooms = () => {
@@ -25,7 +25,7 @@ const ChatRooms = () => {
                 <div className="chat-wrapper d-lg-flex gap-1 mx-n4 mt-n4 py-1">
 
                     {/* Chat Left Sidebar */}
-                    <ChatLeftSideBar
+                    <ChatSideBar
                         currentRoomId={currentRoomId}
                         setCurrentRoomId={setCurrentRoomId}
                         setChatBoxUsername={setChatBoxUsername}
@@ -34,7 +34,7 @@ const ChatRooms = () => {
                     />
 
                     {/* Chat Box */}
-                    <ChatBox
+                    <ChatMain
                         userChatShow={userChatShow}
                         backToUserChat={backToUserChat}
                         chatBoxUsername={chatBoxUsername}

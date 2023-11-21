@@ -9,7 +9,7 @@ import { isEmpty, map } from "lodash";
 
 
 
-const ChatInput = ({ socketUrl, currentRoomId }) => {
+const ChatMainInput = ({ socketUrl, currentRoomId, setMessageHistory }) => {
 
     // State Declarations
     const { messages } = useSelector(chatSelector);
@@ -20,7 +20,6 @@ const ChatInput = ({ socketUrl, currentRoomId }) => {
     const [emojiArray, setemojiArray] = useState("");
     const [curMessage, setcurMessage] = useState("");
     const [messageBox, setMessageBox] = useState(null);
-    const [messageHistory, setMessageHistory] = useState([]);
     const [reply, setreply] = useState("");
     const [user, setUser] = useState({
         name: currentUser.name,
@@ -29,18 +28,9 @@ const ChatInput = ({ socketUrl, currentRoomId }) => {
     });
 
     // WebSocket Setup
-    const { sendMessage, lastMessage } = useWebSocket(socketUrl, {
+    const { sendMessage } = useWebSocket(socketUrl, {
         shouldReconnect: (closeEvent) => true,
     });
-
-
-    // Handle incoming WebSocket messages
-    useEffect(() => {
-        if (lastMessage !== null) {
-            const incomingMessage = JSON.parse(lastMessage.data);
-            setMessageHistory(prev => [...prev, incomingMessage]);
-        }
-    }, [lastMessage]);
 
 
 
@@ -61,18 +51,6 @@ const ChatInput = ({ socketUrl, currentRoomId }) => {
     };
 
 
-    // Scrolling
-    const scrollToBottom = useCallback(() => {
-        if (messageBox) {
-            messageBox.scrollTop = messageBox.scrollHeight + 1000;
-        }
-    }, [messageBox]);
-
-    // Scroll to bottom on new messages
-    useEffect(() => {
-        if (!isEmpty(messages)) scrollToBottom();
-    }, [messages, scrollToBottom]);
-
 
     const onEmojiClick = (event, emojiObject) => {
         setemojiArray([...emojiArray, emojiObject.emoji]);
@@ -81,9 +59,6 @@ const ChatInput = ({ socketUrl, currentRoomId }) => {
     };
 
 
-    useEffect(() => {
-        if (!isEmpty(messages)) scrollToBottom();
-    }, [messages, scrollToBottom]);
 
     const onKeyPress = (e) => {
         const { key, value } = e;
@@ -173,5 +148,5 @@ const ChatInput = ({ socketUrl, currentRoomId }) => {
     )
 }
 
-export default ChatInput;
+export default ChatMainInput;
 

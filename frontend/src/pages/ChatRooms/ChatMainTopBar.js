@@ -9,7 +9,7 @@ import FeatherIcon from "feather-icons-react";
 
 import userDummayImage from "assets/images/users/avatar-2.jpg";
 
-const ChatTopBar = ({
+const ChatMainTopBar = ({
     backToUserChat,
     Chat_Box_Username,
     currentRoomId,
@@ -21,46 +21,15 @@ const ChatTopBar = ({
     // State Declarations
     const { messages } = useSelector(chatSelector);
     const { currentUser } = useSelector(userSelector);
-    const [messageBox, setMessageBox] = useState(null);
-    const [curMessage, setcurMessage] = useState("");
-    const [messageHistory, setMessageHistory] = useState([]);
 
     const [search_Menu, setsearch_Menu] = useState(false);
     const [settings_Menu, setsettings_Menu] = useState(false);
     const [isInfoDetails, setIsInfoDetails] = useState(false);
-    const [reply, setreply] = useState("");
     const [user, setUser] = useState({
         name: currentUser.name,
         id: currentUser.id,
         isActive: true,
     });
-
-    // WebSocket Setup
-    const { sendMessage, lastMessage } = useWebSocket(socketUrl, {
-        shouldReconnect: (closeEvent) => true,
-    });
-
-
-    // Handle incoming WebSocket messages
-    useEffect(() => {
-        if (lastMessage !== null) {
-            const incomingMessage = JSON.parse(lastMessage.data);
-            setMessageHistory(prev => [...prev, incomingMessage]);
-        }
-    }, [lastMessage]);
-
-
-    // Scrolling
-    const scrollToBottom = useCallback(() => {
-        if (messageBox) {
-            messageBox.scrollTop = messageBox.scrollHeight + 1000;
-        }
-    }, [messageBox]);
-
-    // Scroll to bottom on new messages
-    useEffect(() => {
-        if (!isEmpty(messages)) scrollToBottom();
-    }, [messages, scrollToBottom]);
 
 
     // ChatBox Upper Control
@@ -76,21 +45,6 @@ const ChatTopBar = ({
     const toggleInfo = () => {
         setIsInfoDetails(!isInfoDetails);
     };
-
-
-
-
-    // Ensure messages is always an array
-    const safeMessages = Array.isArray(messages) ? messages : [];
-
-    // Combine historical and WebSocket messages
-    const combinedMessages = [...safeMessages, ...messageHistory];
-
-    console.log("messageHistory", messageHistory)
-
-    useEffect(() => {
-        if (!isEmpty(messages)) scrollToBottom();
-    }, [messages, scrollToBottom]);
 
 
 
@@ -253,4 +207,4 @@ const ChatTopBar = ({
     )
 }
 
-export default ChatTopBar;
+export default ChatMainTopBar;

@@ -30,15 +30,13 @@ class ChatConsumer(AsyncWebsocketConsumer):
                     'type': 'users_update'
                 }
             )
-    
-    
+
     async def disconnect(self, close_code):
         # Leave room
         await self.channel_layer.group_discard(self.room_group_name, self.channel_name)
 
         if not self.user.is_staff:
             await self.set_room_closed()
-
 
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
@@ -50,7 +48,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
         print('Received created_by:', created_by)
         # ... rest of your code ...
-
 
         if type == 'message':
             new_message = await self.create_message(message, created_by)
@@ -75,17 +72,16 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 }
             )
 
-    
     async def chat_message(self, event):
         # Send message to WebSocket (front end)
         await self.send(text_data=json.dumps({
             'type': event['type'],
             'message': event['message'],
-            'createdBy': event['created_by'],
+            'createdBy': event['createdBy'],
             'created_at': event['created_at'],
+            'roomUuid': self.room_name,  # Add the roomUuid here
         }))
 
-    
     async def writing_active(self, event):
         # Send writing is active to room
         await self.send(text_data=json.dumps({
@@ -95,7 +91,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
             'created_by': event['created_by'],
             'initials': event['initials'],
         }))
-    
 
     async def users_update(self, event):
         # Send information to the web socket (front end)
@@ -103,18 +98,15 @@ class ChatConsumer(AsyncWebsocketConsumer):
             'type': 'users_update'
         }))
 
-    
     @sync_to_async
     def get_room(self):
         self.room = Room.objects.get(uuid=self.room_name)
 
-    
     @sync_to_async
     def set_room_closed(self):
         self.room = Room.objects.get(uuid=self.room_name)
         self.room.status = Room.CLOSED
         self.room.save()
-
 
     @sync_to_async
     def create_message(self, message, created_by):
@@ -124,7 +116,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
         if created_by:
             try:
                 user = User.objects.get(pk=created_by)
-                new_message = Message.objects.create(message=message, created_by=user)
+                new_message = Message.objects.create(
+                    message=message, created_by=user)
                 print("Assigned user:", user)
             except User.DoesNotExist:
                 print("User not found for ID:", created_by)
