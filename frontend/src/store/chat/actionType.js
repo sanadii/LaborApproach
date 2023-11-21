@@ -4,20 +4,19 @@ export const API_RESPONSE_ERROR = "API_RESPONSE_ERROR";
 export const GET_DIRECT_CONTACT = "GET_DIRECT_CONTACT";
 
 
+// Chat Channels
+export const GET_CHAT_CHANNELS = "GET_CHAT_CHANNELS";
+export const ADD_NEW_CHAT_CHANNEL = "ADD_NEW_CHAT_CHANNEL";
+export const UPDATE_CHAT_CHANNEL = "UPDATE_CHAT_CHANNEL";
+export const DELETE_CHAT_CHANNEL = "DELETE_CHAT_CHANNEL";
 
-/* MESSAGES */
+// Chat Rooms
+export const GET_CHAT_ROOMS = "GET_CHAT_ROOMS";
+export const ADD_NEW_CHAT = "ADD_NEW_CHAT";
+
+/* Messages */
 export const GET_MESSAGES = "GET_MESSAGES";
 export const GET_MESSAGES_SUCCESS = "GET_MESSAGES_SUCCESS";
 export const GET_MESSAGES_FAIL = "GET_MESSAGES_FAIL";
 export const ADD_MESSAGE = "ADD_MESSAGE";
 export const DELETE_MESSAGE = "DELETE_MESSAGE";
-
-
-
-export const GET_CHANNELS = "GET_CHANNELS";
-
-// CHAT ROOM 
-export const GET_CHAT_ROOMS = "GET_CHAT_ROOMS";
-export const ADD_NEW_CHAT = "ADD_NEW_CHAT";
-
-

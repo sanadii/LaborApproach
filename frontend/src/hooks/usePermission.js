@@ -4,15 +4,7 @@ import { userSelector, campaignSelector } from 'Selectors';
 
 // Define a List of Entities:
 const entities = [
-    'Config', 'User', 'Group', 'Permission',
-    'Election', 'ElectionCandidate', 'ElectionCommittee', 'ElectionCommitteeResult',
-    'Candidate',
-
-    'Campaign', 'CampaignMember', 'CampaignGuarantee', 'CampaignAttendee',
-    'CampaignModerator', 'CampaignCandidate', 'CampaignCoordinator', 'CampaignSupervisor',
-
-    'Elector',
-    'Area', 'Category', 'Tag',
+    'User', 'Group', 'Permission',
 ];
 
 // Define a List of Actions
@@ -32,18 +24,14 @@ const computePermissions = (hasPermission) => {
 };
 
 
+
 const usePermission = () => {
     const { currentUser } = useSelector(userSelector);
-    const { currentCampaignMember } = useSelector(campaignSelector);
 
     // Extract permissions based on the user's roles
     const getPermissions = () => {
-        const userPermissions = currentUser.permissions || [];
-        const campaignPermissions = currentCampaignMember?.permissions || [];
-        const combinedPermissions = [
-            ...new Set([...userPermissions, ...campaignPermissions])
-        ];
-        return combinedPermissions;
+        // Use only user permissions as campaignMember is removed
+        return currentUser.permissions || [];
     };
 
     const permissions = getPermissions();

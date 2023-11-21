@@ -1,11 +1,9 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { GenderOptions } from "constants";
-import { campaignSelector } from 'Selectors';
 
 
 const GenderFilter = ({ filters, setFilters }) => {
-    const campaignGuarantees = useSelector(campaignSelector);
   
     const ChangeGuaranteeGender = (e) => {
       const selectedGender = e ? Number(e) : null; // Convert to number

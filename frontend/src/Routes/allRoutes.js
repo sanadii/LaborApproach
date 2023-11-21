@@ -26,19 +26,6 @@ import Groups from "pages/Admin/Settings/Groups";
 import Dashboard from "pages/Dashboard";
 
 
-// Election Pages
-import ElectionList from "pages/Elections/ElectionList";
-import ElectionDetails from "pages/Elections/ElectionDetails";
-
-// Candidates Pages
-import CandidateList from "pages/Candidates/CandidateList";
-import CandidateDetails from "pages/Candidates/CandidateDetails";
-
-// Campaign Pages
-import CampaignList from "pages/Campaigns/CampaignList";
-import CampaignGrid from "pages/Campaigns/CampaignList/CampaignGrid";
-import CampaignDetails from "pages/Campaigns/CampaignDetails";
-
 
 // User Pages
 import UserList from "pages/Users/UserList";
@@ -46,9 +33,6 @@ import ChatRoomGrid from "pages/ChatRooms/ChatRoomGrid";
 import ChatRooms from "pages/ChatRooms";
 
 // Public Pages
-// Elections
-import ElectionGrid from "pages/Public/ElectionGrid";
-import Results from "pages/Public/Results";
 
 // //AuthenticationInner pages
 import BasicSignIn from "pages/AuthenticationInner/Login/BasicSignIn";
@@ -104,30 +88,9 @@ const authProtectedRoutes = [
   { path: "/settings/groups", component: <Groups /> },
 
   // Admin Lists
-  { path: "/admin/campaigns", component: <CampaignList /> },
-  { path: "/admin/candidates/", component: <CandidateList /> },
-  { path: "/admin/elections/", component: <ElectionList /> },
   { path: "/admin/users/", component: <UserList /> },
   { path: "/admin/chat-grid/", component: <ChatRoomGrid /> },
   { path: "/admin/chat-rooms/", component: <ChatRooms /> },
-
-
-
-  // -------Subscribers------
-  { path: "/campaigns", component: <CampaignGrid /> },
-
-
-
-  // ----------Common--------
-  { path: "/elections/:slug", component: <ElectionDetails /> },
-  { path: "/candidates/:slug", component: <CandidateDetails /> },
-  { path: "/campaigns/:slug", component: <CampaignDetails /> },
-  // { path: "/campaigns/:id", component: <CampaignDetails /> },
-  // { path: "/candidates/:id", component: <CandidateDetails /> },
-
-  // Members
-  // { path: "/members", component: <MemberList /> },
-  // { path: "/members/:id", component: <MemberDetails /> },
 
 
 
@@ -149,19 +112,12 @@ const authProtectedRoutes = [
 
 // Public Routes
 const publicRoutes = [
-  // Others
-  // { path: "/alphabet", component: <Alphabet /> },
-
   // Authentication Pages
   { path: "/logout", component: <Logout /> },
   { path: "/login", component: <Login /> },
   { path: "/forgot-password", component: <ForgetPasswordPage /> },
   { path: "/register", component: <Register /> },
 
-
-  // Election Pages
-  { path: "/public", component: <ElectionGrid /> },
-  { path: "/public/elections/:id", component: <Results /> },
 
   //AuthenticationInner pages
   { path: "/auth-signin-basic", component: <BasicSignIn /> },

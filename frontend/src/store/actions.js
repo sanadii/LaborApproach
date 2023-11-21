@@ -9,17 +9,6 @@ export * from "./groups/action";
 // Messages
 export * from "./chat/action";
 
-
-// Elections
-export * from "./elections/action";
-export * from "./candidates/action";
-export * from "./campaigns/action";
-
-// Electors
-export * from "./electors/action";
-// export * from "./guarantees/action";
-// export * from "./attendees/action";
-
 // System
 export * from "./uploadImage/action";
 
@@ -30,5 +19,4 @@ export * from "./categories/action";
 
 // Layout
 export * from "./layouts/action";
-// export * from "./electionCandidate/action";
 

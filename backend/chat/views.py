@@ -7,27 +7,17 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.views.decorators.http import require_POST
 
-from rest_framework import status, serializers
+from rest_framework import status, generics
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 
-from .models import Room, Message, RoomParticipant
-from .serializers import MessageSerializer, RoomSerializer
+from .models import Message, ChatRoom, ChatChannel, ChatRoomParticipant
+from .serializers import MessageSerializer, RoomSerializer, ChatChannelSerializer
 
 from account.forms import AddUserForm, EditUserForm
 from account.models import User
 from account.serializers import UserSerializer
-
-
-@require_POST
-def create_room(request, uuid):
-    name = request.POST.get('name', '')
-    url = request.POST.get('url', '')
-
-    Room.objects.create(uuid=uuid, client=name, url=url)
-
-    return JsonResponse({'message': 'room created'})
 
 
 class CreateRoom(APIView):
@@ -44,13 +34,72 @@ class CreateRoom(APIView):
             room = serializer.save()
 
             # Add the current user as a participant
-            RoomParticipant.objects.create(user=request.user, room=room)
+            ChatRoomParticipant.objects.create(user=request.user, room=room)
 
             return Response({"data": serializer.data, "count": 0, "code": 200}, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+
+# Channels
+class GetChatChannels(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request, format=None):
+        channels = ChatChannel.objects.all()
+        serializer = ChatChannelSerializer(channels, many=True)
+        return Response(serializer.data)
+
+class AddNewChatChannel(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request, format=None):
+        serializer = ChatChannelSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class UpdateChatChannel(APIView):
+    permission_classes = [AllowAny]
+
+    def put(self, request, pk, format=None):
+        channel = ChatChannel.objects.get(pk=pk)
+        serializer = ChatChannelSerializer(channel, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class DeleteChatChannel(APIView):
+    permission_classes = [AllowAny]
+
+    def delete(self, request, pk, format=None):
+        channel = ChatChannel.objects.get(pk=pk)
+        channel.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+# class GetChatChannels(ListAPIView):
+#     queryset = ChatChannel.objects.all()
+#     serializer_class = ChatChannelSerializer
+
+# class AddNewChatChannel(CreateAPIView):
+#     queryset = ChatChannel.objects.all()
+#     serializer_class = ChatChannelSerializer
+
+# class UpdateChatChannel(UpdateAPIView):
+#     queryset = ChatChannel.objects.all()
+#     serializer_class = ChatChannelSerializer
+#     lookup_field = 'pk'  # or another unique field of the ChatChannel model
+
+# class DeleteChatChannel(DestroyAPIView):
+#     queryset = ChatChannel.objects.all()
+#     serializer_class = ChatChannelSerializer
+#     lookup_field = 'pk'  # or another unique field of the ChatChannel model
+
+
+# Chat Messages
 class AddMessage(APIView):
     permission_classes = [AllowAny]
 
@@ -65,7 +114,7 @@ class GetChatRooms(APIView):
     permission_classes = [AllowAny]
 
     def get(self, request, format=None):
-        rooms = Room.objects.all()
+        rooms = ChatRoom.objects.all()
         users = User.objects.all()
 
         # Serialize the data
@@ -94,7 +143,7 @@ class GetChatMessages(APIView):
 #     context_object_name = 'rooms'
 
 #     def get_queryset(self):
-#         return Room.objects.all()
+#         return ChatRoom.objects.all()
 
 #     def get_context_data(self, **kwargs):
 #         context = super().get_context_data(**kwargs)
@@ -103,7 +152,7 @@ class GetChatMessages(APIView):
 
 @login_required
 def admin(request):
-    rooms = Room.objects.all()
+    rooms = ChatRoom.objects.all()
     users = User.objects.filter(is_staff=True)
 
     return render(request, 'chat/admin.html', {
@@ -114,10 +163,10 @@ def admin(request):
 
 @login_required
 def room(request, uuid):
-    room = Room.objects.get(uuid=uuid)
+    room = ChatRoom.objects.get(uuid=uuid)
 
-    if room.status == Room.WAITING:
-        room.status = Room.ACTIVE
+    if room.status == ChatRoom.WAITING:
+        room.status = ChatRoom.ACTIVE
         room.agent = request.user
         room.save()
 
@@ -129,7 +178,7 @@ def room(request, uuid):
 @login_required
 def delete_room(request, uuid):
     if request.user.has_perm('room.delete_room'):
-        room = Room.objects.get(uuid=uuid)
+        room = ChatRoom.objects.get(uuid=uuid)
         room.delete()
                 
         messages.success(request, 'The room was deleted!')
@@ -210,3 +259,13 @@ def add_user(request):
         messages.error(request, 'You don\'t have access to add users!')
 
         return redirect('/chat-admin/')
+    
+
+@require_POST
+def create_room(request, uuid):
+    name = request.POST.get('name', '')
+    url = request.POST.get('url', '')
+
+    ChatRoom.objects.create(uuid=uuid, client=name, url=url)
+
+    return JsonResponse({'message': 'room created'})

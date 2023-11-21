@@ -27,7 +27,7 @@ import { useSelector, useDispatch } from "react-redux";
 import {
     getDirectContact as onGetDirectContact,
     getMessages,
-    getChannels as onGetChannels,
+    getChatChannels as onGetChannels,
     addMessage as onAddMessage,
     deleteMessage as onDeleteMessage
 } from "store/actions";

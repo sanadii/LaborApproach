@@ -5,15 +5,18 @@ const selectUsersState = state => state.Users;
 
 export const userSelector = createSelector(
     selectUsersState,
-    (usersState,) => ({
+    (usersState) => ({
         // User Selectors
         isUserSuccess: usersState.isUserSuccess,
         error: usersState.error,
-        users: usersState.users,
-        moderators: usersState.moderators,
         user: usersState.currentUser,
         currentUser: usersState.currentUser,
-        currentUserCampaigns: usersState.currentUser.campaigns,
-        campaignModerators: usersState.campaignModerators,
+        users: usersState.users,
+        moderators: moderators(usersState.users)
     })
+);
+
+export const moderators = createSelector(
+    [selectUsersState],  // Changed to selectUsersState
+    (usersState) => usersState.users.filter(user => user.role === 'moderator')
 );

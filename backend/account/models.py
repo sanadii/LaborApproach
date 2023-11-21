@@ -27,23 +27,22 @@ class CustomUserManager(UserManager):
         extra_fields.setdefault('is_superuser', True)
         return self._create_user(name, email, password, **extra_fields)
 
+class RoleOptions(models.TextChoices):
+    ADMIN = 'admin', 'Admin'
+    MODERATOR = 'moderator', 'Moderator'
+    MANAGER = 'manager', 'Manager'
+    AGENT = 'agent', 'Agent'
+    SUBSCRIBER = 'subscriber', 'Subscriber'
+
 
 class User(AbstractBaseUser, PermissionsMixin):
-    AGENT = 'agent'
-    MANAGER = 'manager'
-
-    ROLES_CHOICES = (
-        (AGENT, 'Agent'),
-        (MANAGER, 'Manager'),
-    )
     
     id = models.BigAutoField(primary_key=True)
-    # uuid = models.UUIDField(editable=False)
     email = models.EmailField(unique=True)
     name = models.CharField(max_length=255, blank=True, default='')
-    # first_name = models.CharField(max_length=255, blank=True, default='')
-    # last_name = models.CharField(max_length=255, blank=True, default='')
-    role = models.CharField(max_length=20, choices=ROLES_CHOICES, default=AGENT)
+    first_name = models.CharField(max_length=255, blank=True, default='')
+    last_name = models.CharField(max_length=255, blank=True, default='')
+    role = models.CharField(max_length=20, choices=RoleOptions.choices, default=RoleOptions.SUBSCRIBER)
 
     is_active = models.BooleanField(default=True)
     is_superuser = models.BooleanField(default=False)

@@ -3,12 +3,19 @@ import {
   API_RESPONSE_SUCCESS,
   API_RESPONSE_ERROR,
 
-  // Chat
+  // Chat Channels
+  GET_CHAT_CHANNELS,
+  ADD_NEW_CHAT_CHANNEL,
+  // UPDATE_CHAT_CHANNEL,
+  DELETE_CHAT_CHANNEL,
+
+  // Chat Rooms
+  GET_CHAT_ROOMS,
   ADD_NEW_CHAT,
   GET_MESSAGES_SUCCESS,
   GET_MESSAGES_FAIL,
-  GET_CHANNELS,
-  GET_CHAT_ROOMS,
+
+  // Chat Messeges
   ADD_MESSAGE,
   DELETE_MESSAGE
 } from "./actionType";
@@ -31,7 +38,7 @@ const Chats = (state = INIT_STATE, action) => {
             chats: action.payload.data,
           };
 
-        // Chats
+        // Chats Rooms
         case GET_CHAT_ROOMS:
           return {
             ...state,
@@ -54,7 +61,7 @@ const Chats = (state = INIT_STATE, action) => {
               message => message.id.toString() !== action.payload.data.toString()
             ),
           };
-        case GET_CHANNELS:
+        case GET_CHAT_CHANNELS:
           return {
             ...state,
             channels: action.payload.data,
@@ -81,6 +88,24 @@ const Chats = (state = INIT_STATE, action) => {
             ...state,
             error: action.payload.error,
           };
+
+        // Chat Channels
+        case GET_CHAT_CHANNELS:
+          return {
+            ...state,
+            error: action.payload.error,
+          };
+        case ADD_NEW_CHAT_CHANNEL:
+          return {
+            ...state,
+            error: action.payload.error,
+          };
+        case DELETE_CHAT_CHANNEL:
+          return {
+            ...state,
+            error: action.payload,
+          };
+        // Chat Messages
         case ADD_MESSAGE:
           return {
             ...state,
@@ -90,11 +115,6 @@ const Chats = (state = INIT_STATE, action) => {
           return {
             ...state,
             error: action.payload,
-          };
-        case GET_CHANNELS:
-          return {
-            ...state,
-            error: action.payload.error,
           };
 
         default:
@@ -112,7 +132,7 @@ const Chats = (state = INIT_STATE, action) => {
       };
     }
 
-    case GET_CHANNELS: {
+    case GET_CHAT_CHANNELS: {
       return {
         ...state,
       };

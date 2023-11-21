@@ -1,20 +1,12 @@
 // Selectors/index.js
 
 
-// Chat
-export { chatSelector } from './chatSelector';
-
-export { electionSelector } from './electionSelector';
-export { candidateSelector } from './candidateSelector';
-export { campaignSelector } from './campaignSelector';
-export { categorySelector } from './categorySelector';
-
-
-// 
-export { electorSelector } from './electorSelector';
-
+// Authentication
 export { authSelector } from './authSelector';
 export { userSelector } from './userSelector';
+
+export { chatSelector } from './chatSelector';
+export { categorySelector } from './categorySelector';
 
 export { layoutSelector } from './layoutSelector';
 

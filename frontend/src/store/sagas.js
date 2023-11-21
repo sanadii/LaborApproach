@@ -12,19 +12,6 @@ import GroupsSaga from "./groups/saga";
 // Messages
 import chatSaga from "./chat/saga";
 
-
-// Elections
-import electionSaga from "./elections/saga";
-import candidatesSaga from "./candidates/saga";
-import campaignsSaga from "./campaigns/saga";
-// import ElectionCandidatesSaga from "./electionCandidate/saga";
-
-// Electors
-import electorSaga from "./electors/saga";
-// import guaranteeSaga from "./guarantees/saga";
-// import attendeeSaga from "./attendees/saga";
-
-
 // System
 import UploadImageSaga from "./uploadImage/saga";
 
@@ -46,13 +33,7 @@ export default function* rootSaga() {
 
     // Messages
     fork(chatSaga),
-    // Project
-    fork(electionSaga),
-    fork(candidatesSaga),
-    fork(campaignsSaga),
-    fork(electorSaga),
-    // fork(guaranteeSaga),
-    // fork(attendeeSaga),
+
 
     // System / Settings
     fork(LayoutSaga),

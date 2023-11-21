@@ -2,31 +2,16 @@ import React, { Fragment, useState } from "react";
 import { useSelector } from "react-redux";
 import { Row } from "reactstrap";
 
-// Campaign Filters
-import MemberRoleFilter from "../Filters/MemberRoleFilter";
-import ElectionCategoryFilter from "../Filters/ElectionCategoryFilter";
-import GuaranteeStatusFilter from "../Filters/GuaranteeStatusFilter";
-import GuarantorFilter from "../Filters/GuarantorFilter";
-import GuaranteeAttendanceFilter from "../Filters/GuaranteeAttendanceFilter";
-import CandidateGenderFilter from "../Filters/CandidateGenderFilter";
 
 // General Filters
 import GlobalFilter from "../Filters/GlobalFilter";
 import GenderFilter from "../Filters/GenderFilter";
-import ElectionCommitteeFilter from "../Filters/ElectionCommitteeFilter";
 import PriorityFilter from "../Filters/PriorityFilter";
 import StatusFilter from "../Filters/StatusFilter";
 import ResetFilters from "../Filters/ResetFilters";
-import DefaultColumnFilter from "../Filters/DefaultColumnFilter";
-import SearchFilter from "../Filters/SearchFilter";
 
 
 const TableContainerFilters = ({
-
-    // Tab Filters----------
-    isElectionCategoryFilter,
-    isCampaignRoleFilter,
-
     // Global Filter----------
     isGlobalFilter,
 
@@ -35,17 +20,8 @@ const TableContainerFilters = ({
     // Select Filters----------
     isStatusFilter,
     isPriorityFilter,
-    isCandidateGenderFilter,
-    isMemberRoleFilter,
     isGenderFilter,
-    isGuaranteeAttendanceFilter,
-    isAttendeesGenderFilter,
-    isCommitteeFilter,
-    isGuaranteeStatusFilter,
-    isGuarantorFilter,
     isResetFilters,
-    isTestFilter,
-    isGlobalSearch,
 
     // Settings
     activeTab,
@@ -56,9 +32,6 @@ const TableContainerFilters = ({
     SearchPlaceholder,
 
     // Constants
-    setCampaignMemberList,
-    setElectionCandidateList,
-    setCampaignGuaranteeList,
 
     // From useTable
     preGlobalFilteredRows,
@@ -85,20 +58,13 @@ const TableContainerFilters = ({
             <Row className="g-4 mb-4">
                 <div className="d-flex align-items-center ">
                     <div className="col">
-                        {isElectionCategoryFilter && (
+                        {/* {isElectionCategoryFilter && (
                             <ElectionCategoryFilter
                                 setFilters={setFilters}
                                 activeTab={activeTab}
                                 setActiveTab={setActiveTab}
                             />
-                        )}
-                        {isMemberRoleFilter && (
-                            <MemberRoleFilter
-                                setFilters={setFilters}
-                                activeTab={activeTab}
-                                setActiveTab={setActiveTab}
-                            />
-                        )}
+                        )} */}
                     </div>
                     <div className="flex-shrink-0"></div>
                 </div>
@@ -142,45 +108,8 @@ const TableContainerFilters = ({
                                 setFilters={setFilters}
                             />
                         )}
-
-
-                        {isCandidateGenderFilter && (
-                            <CandidateGenderFilter
-                                setElectionCandidateList={setElectionCandidateList}
-                            />
-                        )}
-                        {isGuaranteeAttendanceFilter && (
-                            <GuaranteeAttendanceFilter
-                                filters={filters}
-                                setFilters={setFilters}
-                            />
-                        )}
                         {isGenderFilter && (
                             <GenderFilter
-                                filters={filters}
-                                setFilters={setFilters}
-                            />
-                        )}
-                        {/* {isAttendeesGenderFilter && (
-                            <AttendeeGenderFilter
-                                filters={filters}
-                                setFilters={setFilters}
-                            />
-                        )} */}
-                        {isCommitteeFilter && (
-                            <ElectionCommitteeFilter
-                                filters={filters}
-                                setFilters={setFilters}
-                            />
-                        )}
-                        {isGuaranteeStatusFilter && (
-                            <GuaranteeStatusFilter
-                                filters={filters}
-                                setFilters={setFilters}
-                            />
-                        )}
-                        {isGuarantorFilter && (
-                            <GuarantorFilter
                                 filters={filters}
                                 setFilters={setFilters}
                             />

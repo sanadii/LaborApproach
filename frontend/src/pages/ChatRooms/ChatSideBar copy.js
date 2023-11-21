@@ -4,19 +4,23 @@ import { userSelector, chatSelector } from 'Selectors';
 
 import {
     Button, UncontrolledTooltip,
+    DropdownToggle, DropdownMenu, DropdownItem,
+    UncontrolledDropdown,
     Nav, NavItem, NavLink, TabContent, TabPane,
+    Modal, ModalHeader,
+
 } from "reactstrap";
 
 import SimpleBar from "simplebar-react";
 import classnames from "classnames";
-import { getChatRooms, getChatChannels, getMessages } from "store/actions";
+import { chatContactData } from "data/chat";
+import { getChatRooms, getDirectContact, getMessages } from "store/actions";
 import avatar2 from "assets/images/users/avatar-2.jpg";
 
 
 // Components
 import ChatSideBarRooms from "./ChatSideBarRooms";
 import ChatChannelModal from "./ChatChannelModal";
-
 
 const ChatLeftSideBar = ({
     currentRoomId,
@@ -33,6 +37,11 @@ const ChatLeftSideBar = ({
 
 
     // Modal
+    const [modal_grid, setmodal_grid] = useState(false);
+
+    function tog_grid() {
+        setmodal_grid(!modal_grid);
+    }
     const [modal, setModal] = useState(false);
     const [isEdit, setIsEdit] = useState(false);
 
@@ -101,6 +110,8 @@ const ChatLeftSideBar = ({
                 isEdit={isEdit}
                 setModal={setModal}
             />
+
+
             <div className="chat-leftsidebar">
                 <div className="px-4 pt-4 mb-3">
                     <div className="d-flex align-items-start">
@@ -224,19 +235,9 @@ const ChatLeftSideBar = ({
                                     </h4>
                                 </div>
                                 <div className="flex-shrink-0">
-                                    <UncontrolledTooltip
-                                        placement="bottom"
-                                        target="createnewmsg"
-                                    >
-                                        Create Channel
-                                    </UncontrolledTooltip>
-                                    <Button
-                                        color=""
-                                        id="createnewmsg"
-                                        className="btn btn-soft-success btn-sm"
-                                        onClick={() => toggle(true)}
-                                    >
-                                        <i className="ri-add-line align-bottom"></i>
+
+                                    <Button color="primary" onClick={() => toggle(true)}>
+                                        Launch Demo Modal
                                     </Button>
                                 </div>
                             </div>
@@ -244,6 +245,7 @@ const ChatLeftSideBar = ({
                     </TabPane>
 
                 </TabContent>
+
             </div>
         </>
     )

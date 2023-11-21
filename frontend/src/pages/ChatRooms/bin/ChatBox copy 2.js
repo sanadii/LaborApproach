@@ -9,7 +9,7 @@ import { isEmpty, map } from "lodash";
 import FeatherIcon from "feather-icons-react";
 import {
     // getDirectContact as onGetDirectContact,
-    // getChannels as onGetChannels,
+    // getChatChannels as onGetChannels,
     // addMessage as onAddMessage,
     deleteMessage as onDeleteMessage
 } from "store/actions";

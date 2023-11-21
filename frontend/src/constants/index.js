@@ -5,6 +5,7 @@
 export { StatusOptions, StatusBadge } from './StatusOptions';
 export { PriorityOptions, PriorityBadge } from './PriorityOptions';
 export { GenderOptions } from './GenderOptions';
+export { ChatStatusOptions } from './ChatStatusOptions'
 
 // Member Options
 

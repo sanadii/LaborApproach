@@ -7,7 +7,7 @@ from django.utils.timesince import timesince
 
 from account.models import User
 
-from .models import Room, Message
+from .models import ChatRoom, Message
 from .templatetags.chatextras import initials
 
 
@@ -100,12 +100,12 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     @sync_to_async
     def get_room(self):
-        self.room = Room.objects.get(uuid=self.room_name)
+        self.room = ChatRoom.objects.get(uuid=self.room_name)
 
     @sync_to_async
     def set_room_closed(self):
-        self.room = Room.objects.get(uuid=self.room_name)
-        self.room.status = Room.CLOSED
+        self.room = ChatRoom.objects.get(uuid=self.room_name)
+        self.room.status = ChatRoom.CLOSED
         self.room.save()
 
     @sync_to_async

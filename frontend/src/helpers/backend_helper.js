@@ -60,17 +60,20 @@ export const postSocialLogin = (data) => api.create(url.SOCIAL_LOGIN, data);
 
 // Chat
 export const getDirectContact = () => api.get(url.GET_DIRECT_CONTACT);
-export const getMessages = (roomId) => api.get(url.GET_MESSAGES + "/" + roomId);
 
-// Rooms
+// Chat Rooms
 export const getChatRooms = () => api.get(url.GET_CHAT_ROOMS);
 export const addNewChat = (chatRoom) => api.create(url.ADD_NEW_CHAT + "/" + chatRoom.uuid, chatRoom);
 
-// export const addNewChat = (data) => { api.create(url.ADD_NEW_CHAT, data) };
-// export const addNewChat = message => api.create(url.ADD_NEW_CHAT, message);
+// Chat Channels
+export const getChatChannels = () => api.get(url.GET_CHAT_CHANNELS);
+export const addNewChatChannel = chatChannel => api.create(url.ADD_NEW_CHAT_CHANNEL, chatChannel);
+export const deleteChatChannel = chatChannel => api.delete(url.DELETE_CHAT_CHANNEL, { headers: { chatChannel } });
+
+// Chat Messages
+export const getMessages = (roomId) => api.get(url.GET_MESSAGES + "/" + roomId);
 export const addMessage = message => api.create(url.ADD_MESSAGE, message);
 export const deleteMessage = message => api.delete(url.DELETE_MESSAGE, { headers: { message } });
-export const getChannels = () => api.get(url.GET_CHANNELS);
 
 
 // Elections

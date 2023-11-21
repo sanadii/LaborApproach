@@ -6,15 +6,21 @@ export const POST_JWT_PASSWORD_FORGET = "/account/forget-pwd";
 export const SOCIAL_LOGIN = "/account/social-login";
 export const POST_REGISTER = "/account/signup";
 
-// Chat
+// Contact
 export const GET_DIRECT_CONTACT = "/chat";
-export const GET_MESSAGES = "chat/getChatMessages";
-export const ADD_MESSAGE = "chat/addMessage";
 
 // Chat Room
 export const GET_CHAT_ROOMS = "chat/getChatRooms";
 export const ADD_NEW_CHAT = "chat/createRoom";
-export const GET_CHANNELS = "/channels";
+
+// Chat Channels
+export const GET_CHAT_CHANNELS = "chat/getChatChannels";
+export const ADD_NEW_CHAT_CHANNEL = "chat/addNewChatChannel";
+export const DELETE_CHAT_CHANNEL = "chat/deleteChatChannel";
+
+// Chat Messages
+export const GET_MESSAGES = "chat/getChatMessages";
+export const ADD_MESSAGE = "chat/addMessage";
 export const DELETE_MESSAGE = "delete/message";
 
 

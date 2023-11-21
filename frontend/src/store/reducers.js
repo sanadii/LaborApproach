@@ -15,17 +15,6 @@ import Groups from "./groups/reducer";
 import Chat from "./chat/reducer";
 
 
-// Elections
-import Elections from "./elections/reducer";
-import Candidates from "./candidates/reducer";
-import Campaigns from "./campaigns/reducer";
-// import ElectionCandidates from "./electionCandidate/reducer";
-
-// Electors
-import Electors from "./electors/reducer";
-// import Guarantees from "./guarantees/reducer";
-// import Attendees from "./attendees/reducer";
-
 // System
 import UploadImage from "./uploadImage/reducer";
 
@@ -52,13 +41,6 @@ const rootReducer = combineReducers({
 
     // Chat
     Chat,
-    // Project
-    Elections,
-    Candidates,
-    Campaigns,
-    Electors,
-    // Guarantees,
-    // Attendees,
     
     // System / Settings
     UploadImage,

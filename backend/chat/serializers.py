@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Message, Room
+from .models import ChatRoom, ChatChannel, Message
 from account.models import User
 
 class MessageSerializer(serializers.ModelSerializer):
@@ -11,7 +11,7 @@ class RoomSerializer(serializers.ModelSerializer):
     created_by_name = serializers.SerializerMethodField()
 
     class Meta:
-        model = Room
+        model = ChatRoom
         fields = '__all__'  # Include all fields from the Room model
 
     def create(self, validated_data):
@@ -23,8 +23,14 @@ class RoomSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError({"createdBy": "User not found"})
             validated_data['created_by'] = user
 
-        return Room.objects.create(**validated_data)
+        return ChatRoom.objects.create(**validated_data)
 
     def get_created_by_name(self, obj):
         # This method returns the name of the user who created the room
         return obj.created_by.name if obj.created_by else None
+
+
+class ChatChannelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ChatChannel
+        fields = '__all__'

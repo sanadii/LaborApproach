@@ -10,6 +10,14 @@ urlpatterns = [
     # Frontend
     path('chat/getChatRooms', GetChatRooms.as_view(), name="GetChatRooms"),
     path('chat/createRoom/<str:uuid>', CreateRoom.as_view(), name="CreateRoom"),
+
+    # Channels
+    path('chat/getChatChannels', GetChatChannels.as_view(), name='GetChatChannels'),
+    path('chat/addNewChatChannel', AddNewChatChannel.as_view(), name='AddNewChatChannel'),
+    path('chat/updateChatChannel', UpdateChatChannel.as_view(), name='UpdateChatChannel'),
+    path('chat/deleteChatChannel', DeleteChatChannel.as_view(), name='DeleteChatChannel'),
+
+    # ChatMessage
     path('chat/getChatMessages/<str:id>/', GetChatMessages.as_view(), name="GetChatMessages"),
     path('chat/addMessage/<str:id>', AddMessage.as_view(), name="CreateRoom"),
 
@@ -20,7 +28,5 @@ urlpatterns = [
     path('chat-admin/users/<uuid:uuid>/edit/', views.edit_user, name='edit_user'),
     path('chat-admin/<str:uuid>/', views.room, name='room'),
     path('chat-admin/<str:uuid>/delete/', views.delete_room, name='delete_room'),
-
-
 
 ]
