@@ -1,8 +1,8 @@
 import {
   API_RESPONSE_SUCCESS,
   API_RESPONSE_ERROR,
-  
-  GET_ALL_ATTENDEES,
+  GET_ATTENDEES,
+  GET_ATTENDEE,
   UPDATE_ATTENDEE,
   UPDATE_ATTENDEE_SUCCESS,
   UPDATE_ATTENDEE_FAIL,
@@ -15,62 +15,67 @@ import {
 } from "./actionType";
 
 // common success
-export const attendeesApiResponseSuccess = (actionType, data) => ({
+export const electorsApiResponseSuccess = (actionType, data) => ({
   type: API_RESPONSE_SUCCESS,
   payload: { actionType, data },
 });
 
 // common error
-export const attendeesApiResponseError = (actionType, error) => ({
+export const electorsApiResponseError = (actionType, error) => ({
   type: API_RESPONSE_ERROR,
   payload: { actionType, error },
 });
 
-export const getAllAttendees = () => ({
-  type: GET_ALL_ATTENDEES,
+export const getAttendees = () => ({
+  type: GET_ATTENDEES,
 });
 
-export const updateAttendee = attendee => ({
+export const getAttendee = (attendee) => ({
+  type: GET_ATTENDEE,
+  payload: attendee,
+});
+
+export const updateAttendee = (attendee) => ({
   type: UPDATE_ATTENDEE,
   payload: attendee,
 });
 
-export const updateAttendeeSuccess = attendee => ({
+export const updateAttendeeSuccess = (attendee) => ({
   type: UPDATE_ATTENDEE_SUCCESS,
   payload: attendee,
 });
 
-export const updateAttendeeFail = error => ({
+export const updateAttendeeFail = (error) => ({
   type: UPDATE_ATTENDEE_FAIL,
   payload: error,
 });
 
-export const addNewAttendee = attendee => ({
+export const addNewAttendee = (attendee) => ({
   type: ADD_NEW_ATTENDEE,
   payload: attendee,
 });
 
-export const addAttendeeSuccess = attendee => ({
+export const addAttendeeSuccess = (attendee) => ({
   type: ADD_ATTENDEE_SUCCESS,
   payload: attendee,
 });
 
-export const addAttendeeFail = error => ({
+export const addAttendeeFail = (error) => ({
   type: ADD_ATTENDEE_FAIL,
   payload: error,
 });
 
-export const deleteAttendee = attendee => ({
+export const deleteAttendee = (attendee) => ({
   type: DELETE_ATTENDEE,
   payload: attendee,
 });
 
-export const deleteAttendeeSuccess = attendee => ({
+export const deleteAttendeeSuccess = (attendee) => ({
   type: DELETE_ATTENDEE_SUCCESS,
   payload: attendee,
 });
 
-export const deleteAttendeeFail = error => ({
+export const deleteAttendeeFail = (error) => ({
   type: DELETE_ATTENDEE_FAIL,
   payload: error,
 });

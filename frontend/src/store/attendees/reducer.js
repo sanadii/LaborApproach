@@ -1,8 +1,8 @@
 import {
   API_RESPONSE_SUCCESS,
   API_RESPONSE_ERROR,
-
-  GET_ALL_ATTENDEES,
+  GET_ATTENDEES,
+  GET_ATTENDEE,
   ADD_ATTENDEE_SUCCESS,
   ADD_ATTENDEE_FAIL,
   UPDATE_ATTENDEE_SUCCESS,
@@ -12,29 +12,39 @@ import {
 } from "./actionType";
 
 const initialState = {
+  attendee: [],
+  attendee: [],
   attendees: [],
-  subAttendees: [],
-  error: {},
+  totalAttendeesCount: [],
+  nextPageUrl: [],
+  previousPageUrl: {},
 };
 
 const Attendees = (state = initialState, action) => {
-
   switch (action.type) {
     case API_RESPONSE_SUCCESS:
       switch (action.payload.actionType) {
-
-        case GET_ALL_ATTENDEES:
+        case GET_ATTENDEES:
           return {
             ...state,
-            attendees: action.payload.data.attendees,
-            subAttendees: action.payload.data.subAttendees,
+            attendees: action.payload.data,
+          };
+        case GET_ATTENDEE:
+          return {
+            ...state,
+            attendee: action.payload.data,
           };
         default:
           return { ...state };
       }
     case API_RESPONSE_ERROR:
       switch (action.payload.actionType) {
-        case GET_ALL_ATTENDEES:
+        case GET_ATTENDEES:
+          return {
+            ...state,
+            error: action.payload.error,
+          };
+        case GET_ATTENDEE:
           return {
             ...state,
             error: action.payload.error,
@@ -46,7 +56,7 @@ const Attendees = (state = initialState, action) => {
     case ADD_ATTENDEE_SUCCESS:
       return {
         ...state,
-        attendeeList: [...state.attendeeList, action.payload],
+        electorList: [...state.electorList, action.payload],
       };
 
     case ADD_ATTENDEE_FAIL:
@@ -58,7 +68,7 @@ const Attendees = (state = initialState, action) => {
     case UPDATE_ATTENDEE_SUCCESS:
       return {
         ...state,
-        attendeeList: state.attendeeList.map(attendee =>
+        electorList: state.electorList.map((attendee) =>
           attendee.id.toString() === action.payload.id.toString()
             ? { ...attendee, ...action.payload }
             : attendee
@@ -74,8 +84,8 @@ const Attendees = (state = initialState, action) => {
     case DELETE_ATTENDEE_SUCCESS:
       return {
         ...state,
-        attendeeList: state.attendeeList.filter(
-          attendee => attendee.id.toString() !== action.payload.id.toString()
+        electorList: state.electorList.filter(
+          (attendee) => attendee.id.toString() !== action.payload.id.toString()
         ),
       };
 

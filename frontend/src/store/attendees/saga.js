@@ -1,48 +1,56 @@
 import { call, put, takeEvery, all, fork } from "redux-saga/effects";
 
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 // Invoice Redux States
 import {
-
-  GET_ALL_ATTENDEES,
+  GET_ATTENDEES,
+  GET_ATTENDEE,
   ADD_NEW_ATTENDEE,
   DELETE_ATTENDEE,
   UPDATE_ATTENDEE,
 } from "./actionType";
 
 import {
-  attendeesApiResponseSuccess,
-  attendeesApiResponseError,
+  electorsApiResponseSuccess,
+  electorsApiResponseError,
   addAttendeeSuccess,
   addAttendeeFail,
   updateAttendeeSuccess,
   updateAttendeeFail,
   deleteAttendeeSuccess,
-  deleteAttendeeFail
+  deleteAttendeeFail,
 } from "./action";
 
 //Include Both Helper Attendee with needed methods
 import {
-  getAllAttendees as getAllAttendeesApi,
+  getAttendees as getAttendeesApi,
+  getAttendee as getAttendeeApi,
   addNewAttendee,
   updateAttendee,
   deleteAttendee,
 } from "../../helpers/backend_helper";
 
-
-function* getAllAttendees() {
+function* getAttendees() {
   try {
-    const response = yield call(getAllAttendeesApi);
-    yield put(attendeesApiResponseSuccess(GET_ALL_ATTENDEES, response.data));
+    const response = yield call(getAttendeesApi);
+    yield put(electorsApiResponseSuccess(GET_ATTENDEES, response.data));
   } catch (error) {
-    yield put(attendeesApiResponseError(GET_ALL_ATTENDEES, error));
+    yield put(electorsApiResponseError(GET_ATTENDEES, error));
+  }
+}
+
+function* getAttendee({ payload: attendee }) {
+  try {
+    const response = yield call(getAttendeeApi, attendee);
+    yield put(electorsApiResponseSuccess(GET_ATTENDEE, response.data));
+  } catch (error) {
+    yield put(electorsApiResponseError(GET_ATTENDEE, error));
   }
 }
 
 function* onAddNewAttendee({ payload: attendee }) {
-
   try {
     const response = yield call(addNewAttendee, attendee);
     yield put(addAttendeeSuccess(response));
@@ -76,10 +84,12 @@ function* onDeleteAttendee({ payload: attendee }) {
   }
 }
 
-
-
 export function* watchGetAttendees() {
-  yield takeEvery(GET_ALL_ATTENDEES, getAllAttendees);
+  yield takeEvery(GET_ATTENDEES, getAttendees);
+}
+
+export function* watchGetelectors() {
+  yield takeEvery(GET_ATTENDEE, getAttendee);
 }
 
 export function* watchUpdateAttendee() {
@@ -97,6 +107,7 @@ export function* watchAddNewAttendee() {
 function* AttendeeManager() {
   yield all([
     fork(watchGetAttendees),
+    fork(watchGetelectors),
     fork(watchAddNewAttendee),
     fork(watchUpdateAttendee),
     fork(watchDeleteAttendee),

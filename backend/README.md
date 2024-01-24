@@ -1,3 +1,3 @@
-# Jatte
+# core
 
-This project is the base starter for a tutorial from Code With Stein# jatte-full
+This project is the base starter for a tutorial from Code With Stein# core-full

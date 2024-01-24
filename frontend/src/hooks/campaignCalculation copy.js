@@ -24,7 +24,7 @@ export function getAllStatusCount(guarantees, status) {
 }
 
 
-export function getAllAttendeesCount(guarantees) {
+export function getAttendeesCount(guarantees) {
     return guarantees.filter(guarantee => guarantee.attended).length;
 }
 

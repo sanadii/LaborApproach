@@ -17,3 +17,7 @@ export * from './Tags';
 export * from './MemberRoleOptions';
 export * from './MemberStatusOptions';
 export * from './GuaranteeStatusOptions';
+
+
+// Attendance
+export { AttendanceStatusOptions } from './AttendanceStatusOptions';

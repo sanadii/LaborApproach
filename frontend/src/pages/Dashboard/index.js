@@ -12,7 +12,7 @@ import SimpleBar from "simplebar-react";
 
 
 const Dashboard = () => {
-    document.title = "Q8 Vision - Chat Fusion";
+    document.title = "Q8 Vision - Labor Approach";
 
     const currentUser = useSelector(state => state.Users.currentUser);
     const isStaff = currentUser?.isStaff;
@@ -30,10 +30,6 @@ const Dashboard = () => {
                     <BreadCrumb title="Dashboard" pageTitle="Dashboard" />
                     <h2>DASHBOARD</h2>
                     <p>this is the dashboard</p>
-
-
-                    <ChatBubble />
-
                 </Container>
             </div>
         </React.Fragment>

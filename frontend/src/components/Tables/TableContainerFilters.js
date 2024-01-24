@@ -45,14 +45,6 @@ const TableContainerFilters = ({
         const page = event.target.value ? Number(event.target.value) - 1 : 0;
         gotoPage(page);
     };
-
-    // Fetching the elections (assuming you have them in some state or context)
-    const elections = useSelector((state) => state.Elections.elections);
-
-
-    // Then, use 'filteredElections' to render your table or list.
-    // const [activeTab, setActiveTab] = useState("0");
-
     return (
         <React.Fragment>
             <Row className="g-4 mb-4">

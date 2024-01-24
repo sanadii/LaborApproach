@@ -7,35 +7,25 @@ import ForgetPasswordPage from "pages/Authentication/ForgetPassword";
 import Logout from "pages/Authentication/Logout";
 import Register from "pages/Authentication/Register";
 
-
 // User profile
 import UserProfile from "pages/Authentication/Profile/ViewProfile";
 import ProfileEdit from "pages/Authentication/Profile/EditProfile";
 // user edit profile
 
-
 //Dashboard
-
-// ADMIN PAGES
-import Settings from "pages/Admin/Settings";
-import Categories from "pages/Admin/Settings/Categories";
-import Groups from "pages/Admin/Settings/Groups";
-
-// import Alphabet from "pages/Alphabet";
-
 import Dashboard from "pages/Dashboard";
 
+// ADMIN PAGES
+import Groups from "pages/Admin/Settings/Groups";
+// import UserList from "pages/Users/UserList";
+import Attendance from "pages/Attendance";
 
 
-// User Pages
-import UserList from "pages/Users/UserList";
-import ChatRoomGrid from "pages/ChatRooms/ChatRoomGrid";
-import ChatRooms from "pages/ChatRooms";
 
 // Public Pages
+import Public from "pages/Public";
 
 // //AuthenticationInner pages
-import BasicSignIn from "pages/AuthenticationInner/Login/BasicSignIn";
 import CoverSignIn from "pages/AuthenticationInner/Login/CoverSignIn";
 import BasicSignUp from "pages/AuthenticationInner/Register/BasicSignUp";
 import CoverSignUp from "pages/AuthenticationInner/Register/CoverSignUp";
@@ -64,55 +54,36 @@ import CoverPasswCreate from "pages/AuthenticationInner/PasswordCreate/CoverPass
 
 import Offlinepage from "pages/AuthenticationInner/Errors/Offlinepage";
 
-// // User Profile
-
-// import FileManager from "pages/FileManager";
-// import ToDoList from "pages/ToDo";
 
 const authProtectedRoutes = [
   { path: "/dashboard", component: <Dashboard /> },
-  { path: "/index", component: <Dashboard /> },
-
-  // Admin: Options, settings, Saved, Favourites,Switch Account, User Activities
-  // Website: Name, Description, email, whatsapp,
-  // Account & Profile
-  // Personal Details
-  // Emails
-  // Notifications
-  // Like & Follow
 
   // ---------Admin---------
   // Admin Options
   { path: "/profile-edit", component: <ProfileEdit /> },
-  { path: "/settings/categories", component: <Categories /> },
   { path: "/settings/groups", component: <Groups /> },
 
   // Admin Lists
-  { path: "/admin/users/", component: <UserList /> },
-  { path: "/admin/chat-grid/", component: <ChatRoomGrid /> },
-  { path: "/admin/chat-rooms/", component: <ChatRooms /> },
-
+  // { path: "/admin/users/", component: <UserList /> },
 
 
   //User Profile
   { path: "/profile", component: <UserProfile /> },
   { path: "/profile-edit", component: <ProfileEdit /> },
-
+  
+  { path: "/attendance", component: <Attendance /> },
 
 
   // this route should be at the end of all other routes
   // eslint-disable-next-line react/display-name
-  {
-    path: "/",
-    exact: true,
-    component: <Navigate to="/dashboard" />,
-  },
-  { path: "*", component: <Navigate to="/dashboard" /> },
+
 ];
 
 // Public Routes
 const publicRoutes = [
   // Authentication Pages
+  { path: "/index", component: <Public /> },
+
   { path: "/logout", component: <Logout /> },
   { path: "/login", component: <Login /> },
   { path: "/forgot-password", component: <ForgetPasswordPage /> },
@@ -120,7 +91,7 @@ const publicRoutes = [
 
 
   //AuthenticationInner pages
-  { path: "/auth-signin-basic", component: <BasicSignIn /> },
+  // { path: "/auth-signin-basic", component: <BasicSignIn /> },
   { path: "/auth-signin-cover", component: <CoverSignIn /> },
   { path: "/auth-signup-basic", component: <BasicSignUp /> },
   { path: "/auth-signup-cover", component: <CoverSignUp /> },
@@ -142,6 +113,17 @@ const publicRoutes = [
   { path: "/auth-pass-change-basic", component: <BasicPasswCreate /> },
   { path: "/auth-pass-change-cover", component: <CoverPasswCreate /> },
   { path: "/auth-offline", component: <Offlinepage /> },
+
+  {
+    path: "/",
+    exact: true,
+    component: <Navigate to="/index" />,
+  },
+  {
+    path: "*",
+    component: <Navigate to="/index" />
+  },
+
 ];
 
 export { authProtectedRoutes, publicRoutes };

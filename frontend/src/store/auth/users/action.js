@@ -23,9 +23,6 @@ import {
 
   // Specific Users
   GET_CURRENT_USER,
-  GET_MODERATOR_USERS,
-  GET_CAMPAIGN_MODERATORS,
-
 
 } from "./actionType";
 
@@ -122,12 +119,3 @@ export const getCurrentUser = (token) => ({
   type: GET_CURRENT_USER,
   payload: token,
 });
-
-export const getModeratorUsers = () => ({
-  type: GET_MODERATOR_USERS,
-});
-
-export const getCampaignModerators = () => ({
-  type: GET_CAMPAIGN_MODERATORS,
-});
-

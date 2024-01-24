@@ -22,7 +22,7 @@ function* loginUser({ payload: { user, history } }) {
       );
       if (response) {
         yield put(loginSuccess(response));
-        history('/dashboard');
+        history('/index');
       } else {
         yield put(apiError(response));
       }
@@ -34,13 +34,13 @@ function* loginUser({ payload: { user, history } }) {
       sessionStorage.setItem("authUser", JSON.stringify(response));
       if (response) {
         yield put(loginSuccess(response));
-        history('/dashboard');
+        history('/index');
       } else {
         yield put(apiError(response));
       }
       if (response.status === "success") {
         yield put(loginSuccess(response));
-        history('/dashboard');
+        history('/index');
         sessionStorage.setItem("authUser", JSON.stringify(response));
       } else {
         yield put(apiError(response));
@@ -72,7 +72,7 @@ function* socialLogin({ payload: { data, history, type } }) {
       const fireBaseBackend = getFirebaseBackend();
       const response = yield call(fireBaseBackend.socialLoginUser, type);
       if (response) {
-        history("/dashboard");
+        history("/index");
       } else {
         history("/login");
       }
@@ -83,7 +83,7 @@ function* socialLogin({ payload: { data, history, type } }) {
       sessionStorage.setItem("authUser", JSON.stringify(response));
       yield put(loginSuccess(response));
     }
-    history('/dashboard');
+    history('/index');
   } catch (error) {
     yield put(apiError(error));
   }

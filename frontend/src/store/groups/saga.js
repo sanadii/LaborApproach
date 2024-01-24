@@ -12,11 +12,6 @@ import {
 } from "./actionType";
 
 import {
-  UPLOAD_IMAGE_SUCCESS,
-  UPLOAD_IMAGE_FAIL,
-} from "../uploadImage/actionType";
-
-import {
   // getGroups, getGroupDetails,
   // API Response
   GroupApiResponseSuccess,
@@ -31,8 +26,6 @@ import {
   deleteGroupFail,
 
 } from "./action";
-
-import { uploadNewImage } from "../uploadImage/action";
 
 //Include Both Helper File with needed methods
 import {
@@ -85,37 +78,14 @@ function* onDeleteGroup({ payload: group }) {
   }
 }
 
-function* onUpdateGroup({ payload: { group, formData } }) {
+function* onUpdateGroup({ payload: group }) {
   try {
-    let uploadResponse;
-
-    // Check if an image is selected (formData contains a selected file)
-    if (formData && formData.get("image")) {
-      // Dispatch the uploadNewImage action with the formData & Wait for the upload to succeed before proceeding
-      yield put(uploadNewImage(formData));
-      const action = yield take([UPLOAD_IMAGE_SUCCESS, UPLOAD_IMAGE_FAIL]);
-      if (action.type === UPLOAD_IMAGE_SUCCESS) {
-        uploadResponse = action.payload;
-      } else {
-        throw new Error("Image Upload Failed");
-      }
-    }
-
-    // Replace backslashes in image URL with forward slashes & update the image field in the group object with the new URL
-    const formattedImageUrl = uploadResponse?.url?.replace(/\\/g, "/");
-    const updatedGroup = {
-      ...group,
-      image: formattedImageUrl,
-    };
-
-    // Call the API function to update the group & Dispatch the updateGroupSuccess action with the received data
-    const updateGroupResponse = yield call(updateGroup, updatedGroup);
-    yield put(updateGroupSuccess(updateGroupResponse));
-
-    toast.success("Group Updated Successfully", { autoClose: 2000 });
+    const response = yield call(updateGroup, group);
+    yield put(updateGroupSuccess(response));
+    toast.success("تم تحديث المجموعة بنجاح", { autoClose: 2000 });
   } catch (error) {
     yield put(updateGroupFail(error));
-    toast.error("Group Updated Failed", { autoClose: 2000 });
+    toast.error("خطأ في تحديث المجموعة", { autoClose: 2000 });
   }
 }
 

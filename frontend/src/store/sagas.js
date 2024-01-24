@@ -9,16 +9,11 @@ import UsersSaga from "./auth/users/saga";
 import GroupsSaga from "./groups/saga";
 
 
-// Messages
-import chatSaga from "./chat/saga";
-
-// System
-import UploadImageSaga from "./uploadImage/saga";
-
-
 // Settings
 import LayoutSaga from "./layouts/saga";
-import Categories from "./categories/saga";
+
+// Attendees
+import AttendeeSaga from "./attendees/saga";
 
 
 export default function* rootSaga() {
@@ -31,14 +26,10 @@ export default function* rootSaga() {
     fork(UsersSaga),
     fork(GroupsSaga),
 
-    // Messages
-    fork(chatSaga),
-
-
     // System / Settings
     fork(LayoutSaga),
-    fork(UploadImageSaga),
-    fork(Categories),
+
+    fork(AttendeeSaga),
 
   ]);
 }

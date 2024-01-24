@@ -6,17 +6,9 @@ export * from "./auth/profile/actions";
 export * from "./auth/users/action";
 export * from "./groups/action";
 
-// Messages
-export * from "./chat/action";
-
-// System
-export * from "./uploadImage/action";
-
-
-// Settings
-export * from "./categories/action";
-
-
 // Layout
 export * from "./layouts/action";
+
+// Attendees
+export * from "./attendees/action";
 

@@ -1,11 +1,13 @@
-from django.urls import path
-
-from . import views
-
-app_name = 'core'
+from django.contrib import admin
+from django.urls import path, include
 
 
 urlpatterns = [
-    path('', views.index, name='index'),
-    path('about/', views.about, name='about'),
+    path('', include('apps.account.urls')),
+    path('admin/', admin.site.urls),
+
+
+    # Apps
+    path('attendees/', include('apps.attendees.urls')),
+
 ]

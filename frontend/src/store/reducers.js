@@ -11,20 +11,12 @@ import Profile from "./auth/profile/reducer";
 import Users from "./auth/users/reducer";
 import Groups from "./groups/reducer";
 
-// Messages
-import Chat from "./chat/reducer";
-
-
-// System
-import UploadImage from "./uploadImage/reducer";
-
-
 // Front
 import Layout from "./layouts/reducer";
 
+// Attendees
+import Attendees from "./attendees/reducer";
 
-// Settings
-import Categories from "./categories/reducer";
 
 //API Key
 const rootReducer = combineReducers({
@@ -38,13 +30,7 @@ const rootReducer = combineReducers({
     Users,
     Groups,
 
-
-    // Chat
-    Chat,
-    
-    // System / Settings
-    UploadImage,
-    Categories,
+    Attendees,
 
 });
 

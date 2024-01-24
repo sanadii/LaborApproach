@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Col, Label, Input, FormFeedback } from "reactstrap";
+import { Button, Col, Label, Input, FormFeedback } from "reactstrap";
 import Flatpickr from "react-flatpickr";
 import defaultAvatar from 'assets/images/users/default.jpg';
 import { api } from "config";
@@ -54,6 +54,8 @@ const FormFields = ({ field, validation }) => {
 
     const renderInput = () => {
         switch (type) {
+            case 'info':
+                return (<p className="text-success">{name}</p>);
             case 'text':
             case 'tel':
             case 'email':
@@ -158,6 +160,31 @@ const FormFields = ({ field, validation }) => {
                         invalid={validation.touched[name] && validation.errors[name]}
                     />
                 );
+
+            case 'buttonsWithLabel':
+                console.log('Options:', field.options); // Log the options array
+
+                return (
+                    <div className="d-flex center">
+                        {field.options &&
+                            field.options
+                                .filter((option) => option.id !== 0) // Exclude options with id equal to 0
+                                .map((option) => (
+                                    <div key={option.value} className="m-2">
+                                        <Button
+                                            color={option.color}
+                                            className="btn-label"
+                                            onClick={option.onClick}
+                                        >
+                                            <i className={`${option.icon} label-icon align-middle fs-16 me-2`}></i>
+                                            {option.label}
+                                        </Button>
+                                    </div>
+                                ))}
+                    </div>
+                );
+
+
             // ... other cases
             default:
                 return null;

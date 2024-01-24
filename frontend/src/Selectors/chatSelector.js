@@ -9,7 +9,10 @@ export const chatSelector = createSelector(
 
     // Campaign Selectors
     chatRooms: chatsState.chatRooms,
+    chatChannels: chatsState.chatChannels,
     messages: chatsState.messages,
+
+
     // campaign: chatsState.campaignDetails,
     // campaignId: chatsState.campaignDetails.id,
     // campaignDetails: chatsState.campaignDetails,

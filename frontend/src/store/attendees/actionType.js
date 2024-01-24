@@ -1,7 +1,8 @@
 // Actions
 export const API_RESPONSE_SUCCESS = "API_RESPONSE_SUCCESS";
 export const API_RESPONSE_ERROR = "API_RESPONSE_ERROR";
-export const GET_ALL_ATTENDEES = "GET_ALL_ATTENDEES";
+export const GET_ATTENDEES = "GET_ATTENDEES";
+export const GET_ATTENDEE = "GET_ATTENDEE";
 
 // Add Attendee
 export const ADD_NEW_ATTENDEE = "ADD_NEW_ATTENDEE";

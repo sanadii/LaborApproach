@@ -1,5 +1,7 @@
-# chatfusion: Getting Started Guide
-chatfusion is a real-time chat application that leverages Django and Channels for a seamless messaging experience. This guide will walk you through setting up a new Django project on a Windows environment, using Python 3.8.2, Django 2.2.15 (LTS), virtualenv, Redis, Django Channels 2, and Sqlite.
+<<<<<<< Updated upstream
+=======
+# LaborApproach: Getting Started Guide
+LaborApproach is a real-time chat application that leverages Django and Channels for a seamless messaging experience. This guide will walk you through setting up a new Django project on a Windows environment, using Python 3.8.2, Django 2.2.15 (LTS), virtualenv, Redis, Django Channels 2, and Sqlite.
 
 For a comprehensive guide on pushing a project like this to production, check out this repo: HOWTO-django-channels-daphne.
 
@@ -45,7 +47,7 @@ Open cmd prompt and run pip install pip.
 Navigate to your Django projects directory (e.g., D://DjangoProjects/).
 Create a new folder for your project, e.g., D://
 
-## DjangoProjects/chatfusion.
+## DjangoProjects/LaborApproach.
 Inside this folder, create a virtual environment: python -m venv venv.
 
 ## Activate the virtual environment:
@@ -53,7 +55,7 @@ Windows: Scripts\activate
 Linux/Mac: source bin/activate
 Install Django and Create Project
 Install Django: python -m pip install Django==2.2.15.
-Create the Django project: django-admin startproject chatfusion.
+Create the Django project: django-admin startproject LaborApproach.
 Rename the root directory to src.
 Track libraries: pip freeze > requirements.txt.
 Test the server: python manage.py runserver and visit http://127.0.0.1:8000/.
@@ -80,7 +82,7 @@ Add Channels to INSTALLED_APPS in settings.py.
 Create a default routing file and set up ASGI in settings.py.
 
 ## Next Steps
-After setting up your environment, you can start developing your chatfusion application. Create your models, views, and templates, and begin integrating Channels for real-time communication. Remember to regularly commit your changes to a version control system like Git.
+After setting up your environment, you can start developing your LaborApproach application. Create your models, views, and templates, and begin integrating Channels for real-time communication. Remember to regularly commit your changes to a version control system like Git.
 
 For detailed instructions on each step and more advanced configurations, refer to the respective official documentation of each technology used. Happy coding! 🚀
 
@@ -94,3 +96,4 @@ This guide provides a structured approach to setting up a Django project with Ch
 
 
 
+>>>>>>> Stashed changes

@@ -18,17 +18,12 @@ import {
 
   // Specific Users
   GET_CURRENT_USER,
-  GET_MODERATOR_USERS,
-  GET_CAMPAIGN_MODERATORS,
-
 } from "./actionType";
 
 const IntialState = {
   users: [],
-  moderators: [],
   currentUser: [],
   userDetails: [],
-  campaignModerators: [],
 };
 
 const Users = (state = IntialState, action) => {
@@ -58,20 +53,6 @@ const Users = (state = IntialState, action) => {
             isUserCreated: false,
             isUserSuccess: true,
           };
-        case GET_MODERATOR_USERS:
-          return {
-            ...state,
-            moderators: action.payload.data,
-            isUserCreated: false,
-            isUserSuccess: true,
-          };
-        case GET_CAMPAIGN_MODERATORS:
-          return {
-            ...state,
-            campaignModerators: action.payload.data,
-            isUserCreated: false,
-            isUserSuccess: true,
-          };
         default:
           return { ...state };
       }
@@ -93,21 +74,6 @@ const Users = (state = IntialState, action) => {
             isUserSuccess: true,
           };
         case GET_USER_DETAILS:
-          return {
-            ...state,
-            error: action.payload.error,
-            isUserCreated: false,
-            isUserSuccess: true,
-          };
-
-        case GET_MODERATOR_USERS:
-          return {
-            ...state,
-            error: action.payload.error,
-            isUserCreated: false,
-            isUserSuccess: true,
-          };
-        case GET_CAMPAIGN_MODERATORS:
           return {
             ...state,
             error: action.payload.error,
@@ -205,18 +171,6 @@ const Users = (state = IntialState, action) => {
       return {
         ...state,
         currentUser: action.payload,
-        isUserCreated: false,
-      };
-    }
-    case GET_MODERATOR_USERS: {
-      return {
-        ...state,
-        isUserCreated: false,
-      };
-    }
-    case GET_CAMPAIGN_MODERATORS: {
-      return {
-        ...state,
         isUserCreated: false,
       };
     }

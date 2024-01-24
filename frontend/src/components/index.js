@@ -11,7 +11,6 @@ export { default as Prism } from "./Components/Prism";
 export { default as ProfileDropdown } from "./Components/ProfileDropdown";
 export { default as ReviewSlider } from "./Components/ReviewSlider";
 export { default as withRouter } from "./Components/withRouter";
-export { default as ChatBubble } from "./Components/ChatBubble";
 
 // Layout
 export { default as RightSidebar } from "./Components/RightSidebar";
@@ -38,8 +37,9 @@ export { default as TableHeaderContainer } from "./Tables/TableHeaderContainer";
 export { default as TableContainerHeader } from "./Tables/TableContainerHeader";
 export { default as TableContainerFooter } from "./Tables/TableContainerFooter";
 export { default as TableContainerFilters } from "./Tables/TableContainerFilters";
-export { default as FullScreenDropdown } from "./Filters/FullScreenDropdown";
+export { default as TableFilters } from "./Tables/TableFilters";
 
+export { default as FullScreenDropdown } from "./Filters/FullScreenDropdown";
 
 // Image Frames
 export { default as AvatarImage } from "./Images/AvatarImage";

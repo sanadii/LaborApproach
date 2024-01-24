@@ -14,14 +14,7 @@ import {
 
   // Specific User(s)
   GET_CURRENT_USER,
-  GET_MODERATOR_USERS,
-  GET_CAMPAIGN_MODERATORS,
 } from "./actionType";
-
-import {
-  UPLOAD_IMAGE_SUCCESS,
-  UPLOAD_IMAGE_FAIL,
-} from "../../uploadImage/actionType";
 
 import {
   // getUsers,
@@ -41,11 +34,8 @@ import {
   deleteUserFail,
 
   // // Specific User(s)
-  // getModeratorUsers,
-  // getCampaignModerators,
 } from "./action";
 
-import { uploadNewImage } from "../../uploadImage/action";
 
 //Include Both Helper File with needed methods
 import {
@@ -58,9 +48,6 @@ import {
 
   // Specific User(s)
   getCurrentUser as getCurrentUserApi,
-  getModeratorUsers as getModeratorUsersApi,
-  getCampaignModerators as getCampaignModeratorsApi,
-
 } from "../../../helpers/backend_helper";
 
 function* getUsers() {
@@ -140,23 +127,6 @@ function* getCurrentUser({ payload: token }) {
   }
 }
 
-function* getModeratorUsers() {
-  try {
-    const response = yield call(getModeratorUsersApi);
-    yield put(UserApiResponseSuccess(GET_MODERATOR_USERS, response.data));
-  } catch (error) {
-    yield put(UserApiResponseError(GET_MODERATOR_USERS, error));
-  }
-}
-
-function* getCampaignModerators() {
-  try {
-    const response = yield call(getCampaignModeratorsApi);
-    yield put(UserApiResponseSuccess(GET_CAMPAIGN_MODERATORS, response.data));
-  } catch (error) {
-    yield put(UserApiResponseError(GET_CAMPAIGN_MODERATORS, error));
-  }
-}
 
 // Watchers
 export function* watchGetUsers() {
@@ -182,12 +152,6 @@ export function* watchDeleteUser() {
 export function* watchGetCurrentUser() {
   yield takeEvery(GET_CURRENT_USER, getCurrentUser);
 }
-export function* watchGetModeratorUsers() {
-  yield takeEvery(GET_MODERATOR_USERS, getModeratorUsers);
-}
-export function* watchGetCampaignModerators() {
-  yield takeEvery(GET_CAMPAIGN_MODERATORS, getCampaignModerators);
-}
 
 function* userSaga() {
   yield all([
@@ -201,9 +165,6 @@ function* userSaga() {
 
     // UserCandidates
     fork(watchGetCurrentUser),
-    fork(watchGetModeratorUsers),
-    fork(watchGetCampaignModerators),
-
   ]);
 }
 
