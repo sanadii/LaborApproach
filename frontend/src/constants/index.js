@@ -21,3 +21,4 @@ export * from './GuaranteeStatusOptions';
 
 // Attendance
 export { AttendanceStatusOptions } from './AttendanceStatusOptions';
+export { LaborValues } from './LaborValues';

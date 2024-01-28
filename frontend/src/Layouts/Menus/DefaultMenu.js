@@ -6,83 +6,51 @@ export function useDefaultMenu(isCurrentState, setIscurrentState) {
   const history = useNavigate();
 
   useEffect(() => {
-    // State management
-    // if (isCurrentState === "adminDashboard") {
-    //   history("/dashboard");
-    //   document.body.classList.add("twocolumn-panel");
-    // }
-    if (isCurrentState === "adminElections") {
-      history("/elections");
+    if (isCurrentState === "home") {
+      history("/");
       document.body.classList.add("twocolumn-panel");
     }
-    if (isCurrentState === "adminCandidates") {
-      history("/candidates");
+    if (isCurrentState === "about") {
+      history("/about");
       document.body.classList.add("twocolumn-panel");
     }
-    if (isCurrentState === "adminCampaigns") {
-      history("/campaigns");
-      document.body.classList.add("twocolumn-panel");
-    }
-    if (isCurrentState === "adminUsers") {
-      history("/admin/users");
+    if (isCurrentState === "contact") {
+      history("/contact");
       document.body.classList.add("twocolumn-panel");
     }
   }, [history, isCurrentState]);
 
   return [
-    {
-      label: "قائمة الإدارة",
-      isHeader: true,
-    },
-    // {
-    //   id: "adminDashboard",
-    //   label: "لوحة التحكم",
-    //   icon: "ri-dashboard-line",
-    //   link: "/dashboard",
-    //   click: function (e) {
-    //     e.preventDefault();
-    //     setIscurrentState("adminDashboard");
-    //   },
-    // },
-    {
-      id: "messeges",
-      label: "Messeges",
+     {
+      id: "home",
+      label: "الرئيسية",
       icon: "ri-dashboard-line",
-      link: "/admin/messeges",
+      link: "/",
       click: function (e) {
         e.preventDefault();
-        setIscurrentState("messeges");
+        setIscurrentState("home");
       },
     },
     {
-      id: "Users",
-      label: "Users",
+      id: "about",
+      label: "عن القائمة",
       icon: "ri-dashboard-line",
-      link: "/admin/users",
+      link: "/about",
       click: function (e) {
         e.preventDefault();
-        setIscurrentState("users");
+        setIscurrentState("about");
       },
     },
     {
-      id: "chat-room-grid",
-      label: "Chat Room Grid",
+      id: "contact",
+      label: "تواصل معنا",
       icon: "ri-dashboard-line",
-      link: "/admin/chat-room-grid",
+      link: "/contact",
       click: function (e) {
         e.preventDefault();
-        setIscurrentState("ChatRoomGrid");
+        setIscurrentState("contact");
       },
     },
-    {
-      id: "chat-rooms",
-      label: "Chat Rooms",
-      icon: "ri-dashboard-line",
-      link: "/admin/chat-rooms",
-      click: function (e) {
-        e.preventDefault();
-        setIscurrentState("ChatRooms");
-      },
-    },
+    
   ];
 }

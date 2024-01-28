@@ -32,7 +32,7 @@ const INIT_STATE = {
   layoutType: layoutTypes.HORIZONTAL,
   leftSidebarType: leftSidebarTypes.DARK,
   layoutModeType: layoutModeTypes.LIGHTMODE,
-  layoutWidthType: layoutWidthTypes.BOX,
+  layoutWidthType: layoutWidthTypes.FLUID,
   layoutPositionType: layoutPositionTypes.FIXED,
   topbarThemeType: topbarThemeTypes.LIGHT,
   leftsidbarSizeType: leftsidbarSizeTypes.DEFAULT,

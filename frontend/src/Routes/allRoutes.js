@@ -24,6 +24,12 @@ import Attendance from "pages/Attendance";
 
 // Public Pages
 import Public from "pages/Public";
+import About from "pages/Public/About";
+import Contact from "pages/Public/Contact";
+
+
+
+
 
 // //AuthenticationInner pages
 import CoverSignIn from "pages/AuthenticationInner/Login/CoverSignIn";
@@ -32,9 +38,6 @@ import CoverSignUp from "pages/AuthenticationInner/Register/CoverSignUp";
 
 import BasicPasswReset from "pages/AuthenticationInner/PasswordReset/BasicPasswReset";
 import CoverPasswReset from "pages/AuthenticationInner/PasswordReset/CoverPasswReset";
-
-import BasicLockScreen from "pages/AuthenticationInner/LockScreen/BasicLockScr";
-import CoverLockScreen from "pages/AuthenticationInner/LockScreen/CoverLockScr";
 
 import BasicLogout from "pages/AuthenticationInner/Logout/BasicLogout";
 import CoverLogout from "pages/AuthenticationInner/Logout/CoverLogout";
@@ -83,7 +86,12 @@ const authProtectedRoutes = [
 const publicRoutes = [
   // Authentication Pages
   { path: "/index", component: <Public /> },
+  { path: "/about", component: <About /> },
+  { path: "/contact", component: <Contact /> },
+  
 
+
+  // User Authentication
   { path: "/logout", component: <Logout /> },
   { path: "/login", component: <Login /> },
   { path: "/forgot-password", component: <ForgetPasswordPage /> },
@@ -92,19 +100,6 @@ const publicRoutes = [
 
   //AuthenticationInner pages
   // { path: "/auth-signin-basic", component: <BasicSignIn /> },
-  { path: "/auth-signin-cover", component: <CoverSignIn /> },
-  { path: "/auth-signup-basic", component: <BasicSignUp /> },
-  { path: "/auth-signup-cover", component: <CoverSignUp /> },
-  { path: "/auth-pass-reset-basic", component: <BasicPasswReset /> },
-  { path: "/auth-pass-reset-cover", component: <CoverPasswReset /> },
-  { path: "/auth-lockscreen-basic", component: <BasicLockScreen /> },
-  { path: "/auth-lockscreen-cover", component: <CoverLockScreen /> },
-  { path: "/auth-logout-basic", component: <BasicLogout /> },
-  { path: "/auth-logout-cover", component: <CoverLogout /> },
-  { path: "/auth-success-msg-basic", component: <BasicSuccessMsg /> },
-  { path: "/auth-success-msg-cover", component: <CoverSuccessMsg /> },
-  { path: "/auth-twostep-basic", component: <BasicTwosVerify /> },
-  { path: "/auth-twostep-cover", component: <CoverTwosVerify /> },
   { path: "/auth-404-basic", component: <Basic404 /> },
   { path: "/auth-404-cover", component: <Cover404 /> },
   { path: "/auth-404-alt", component: <Alt404 /> },

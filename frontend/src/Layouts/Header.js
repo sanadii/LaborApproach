@@ -10,12 +10,7 @@ import logoLight from "../assets/images/logo-light.png";
 
 //import Components
 import SearchOption from '../components/Filters/SearchOption';
-import WebAppsDropdown from '../components/Components/WebAppsDropdown';
-import MyCartDropdown from '../components/Components/MyCartDropdown';
-import FullScreenDropdown from '../components/Filters/FullScreenDropdown';
-import NotificationDropdown from '../components/Components/NotificationDropdown';
 import ProfileDropdown from '../components/Components/ProfileDropdown';
-import LightDark from '../components/Components/LightDark';
 
 import { changeSidebarVisibility } from '../store/actions';
 import { useSelector, useDispatch } from "react-redux";
@@ -70,7 +65,7 @@ const Header = ({ onChangeLayoutMode, layoutModeType, headerClass }) => {
                                         <img src={logoSm} alt="" height="22" />
                                     </span>
                                     <span className="logo-lg">
-                                        <img src={logoDark} alt="" height="17" />
+                                        <img src={logoDark} alt="" height="70" />
                                     </span>
                                 </Link>
 
@@ -79,7 +74,7 @@ const Header = ({ onChangeLayoutMode, layoutModeType, headerClass }) => {
                                         <img src={logoSm} alt="" height="22" />
                                     </span>
                                     <span className="logo-lg">
-                                        <img src={logoLight} alt="" height="17" />
+                                        <img src={logoLight} alt="" height="70" />
                                     </span>
                                 </Link>
                             </div>
@@ -120,23 +115,6 @@ const Header = ({ onChangeLayoutMode, layoutModeType, headerClass }) => {
                                 </DropdownMenu>
                             </Dropdown>
 
-                            {/* WebAppsDropdown */}
-                            {/* <WebAppsDropdown /> */}
-
-                            {/* MyCartDropdwon */}
-                            {/* <MyCartDropdown /> */}
-
-                            {/* FullScreenDropdown */}
-                            <FullScreenDropdown />
-
-                            {/* Dark/Light Mode set */}
-                            <LightDark
-                                layoutMode={layoutModeType}
-                                onChangeLayoutMode={onChangeLayoutMode}
-                            />
-
-                            {/* NotificationDropdown */}
-                            {/* <NotificationDropdown /> */}
 
                             {/* ProfileDropdown */}
                             <ProfileDropdown />

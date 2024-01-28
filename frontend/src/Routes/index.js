@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 
 //Layouts
@@ -9,7 +9,31 @@ import VerticalLayout from "../Layouts/index";
 import { authProtectedRoutes, publicRoutes } from "./allRoutes";
 import { AuthProtected } from './AuthProtected';
 
+
+import { setAuthorization } from "helpers/api_helper";
+import { useSelector, useDispatch } from "react-redux";
+import { useProfile } from "hooks/UserHooks";
+import { getCurrentUser, logoutUser } from "store/actions";
+
+
 const Index = () => {
+    const dispatch = useDispatch();
+
+    const user = useSelector((state) => state.Users.currentUser);
+
+    const { userProfile, loading, token } = useProfile();
+
+    useEffect(() => {
+        if (userProfile && !loading && token) {
+            setAuthorization(token);
+            if (!user || user.length === 0) {
+                dispatch(getCurrentUser());
+            }
+        } else if (!userProfile && loading && !token) {
+            dispatch(logoutUser());
+        }
+    }, [token, loading, dispatch, user, userProfile]);
+
     return (
         <React.Fragment>
             <Routes>
@@ -19,7 +43,7 @@ const Index = () => {
                             path={route.path}
                             element={
                                 <NonAuthLayout>
-                                    {route.component}
+                                    <VerticalLayout>{route.component}</VerticalLayout>
                                 </NonAuthLayout>
                             }
                             key={idx}
@@ -33,7 +57,7 @@ const Index = () => {
                         <Route
                             path={route.path}
                             element={
-                                <AuthProtected>
+                                <AuthProtected token={token}>
                                     <VerticalLayout>{route.component}</VerticalLayout>
                                 </AuthProtected>}
                             key={idx}

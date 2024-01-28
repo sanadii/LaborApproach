@@ -12,7 +12,7 @@ export const userSelector = createSelector(
         user: usersState.currentUser,
         currentUser: usersState.currentUser,
         users: usersState.users,
-        // moderators: moderators(usersState.users)
+        isStaff: usersState.currentUser?.isStaff,
     })
 );
 

@@ -12,7 +12,7 @@ import avatar1 from "assets/images/users/avatar-1.jpg";
 
 const ProfileDropdown = () => {
   const { user } = useSelector(userSelector);
-  const isStaff = user.isStaff
+  const isStaff = user?.isStaff
 
   //Dropdown Toggle
   const [isProfileDropdown, setIsProfileDropdown] = useState(false);
@@ -36,10 +36,10 @@ const ProfileDropdown = () => {
               />
               <span className="text-start ms-xl-2">
                 <span className="d-none d-xl-inline-block ms-1 fw-medium user-userId-text">
-                  {user.lastName}
+                  {user?.lastName}
                 </span>
                 <span className="d-none d-xl-block ms-1 fs-12 text-muted user-userId-sub-text">
-                  {user.firstName}
+                  {user?.firstName}
                 </span>
               </span>
             </span>

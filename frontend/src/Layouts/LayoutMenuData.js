@@ -3,30 +3,21 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux"; // Don't forget to import useSelector
 import { useNavigate } from "react-router-dom";
 import { updateIconSidebar } from './Menus/utils';  // adjust the path according to your directory structure
-import { usePermission } from 'hooks';
+import { userSelector } from 'Selectors';
 
 // Menus
 import { useAdminMenu } from './Menus/AdminMenu';
 import { useDefaultMenu } from './Menus/DefaultMenu';
 import { useSettingsMenu } from './Menus/SettingsMenu';
-import { useEditorMenu } from './Menus/EditorMenu';
-import { useModeratorMenu } from './Menus/ModeratorMenu';
-import { useContributorMenu } from './Menus/ContributorMenu';
-import { useCampaignMenu } from './Menus/CampaignMenu';
 
 const Navdata = () => {
   const history = useNavigate();
   //state for collapsable menus
+
+  const { isStaff } = useSelector(userSelector);
   const [isCurrentState, setIscurrentState] = useState("Dashboard");
 
-  const {
-    canChangeConfig,
-    canViewCampaign,
-    isContributor,
-    isModerator,
-    isSubscriber
-  } = usePermission();
-
+ 
   const [isSettings, setIsSettings] = useState(false);
 
   useEffect(() => {
@@ -40,20 +31,15 @@ const Navdata = () => {
   // Menus Constants
   const DefaultMenu = useDefaultMenu(setIscurrentState);
   const AdminMenu = useAdminMenu(setIscurrentState);
-  const CampaignMenu = useCampaignMenu(setIscurrentState);
-  const ModeratorMenu = useModeratorMenu(setIscurrentState);
-  const EditorMenu = useEditorMenu(setIscurrentState);
-  const ContributorMenu = useContributorMenu(setIscurrentState);
   const SettingsMenu = useSettingsMenu(isCurrentState, setIscurrentState, setIsSettings, isSettings);
 
   const menuItems = [
-    ...(DefaultMenu),
-    ...(canChangeConfig ? [...AdminMenu, ...SettingsMenu] : []),
+    ...DefaultMenu,
+    ...(isStaff ? AdminMenu : []),
     // ...(isAdmin || isEditor ? EditorMenu : []),
     // ...(isAdmin || isModerator ? ModeratorMenu : []),
     // ...(isAdmin || isContributor ? ContributorMenu : []),
     // ...(canViewCampaign || isSubscriber ? CampaignMenu : []),
-    ...(CampaignMenu),
 
   ];
 

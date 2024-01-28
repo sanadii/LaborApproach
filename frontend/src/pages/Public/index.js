@@ -10,6 +10,10 @@ import TopCreator from "./TopCreator ";
 import CTA from './CTA';
 import Footer from "./footer";
 
+import Values from "./Values"
+import { Container, Row } from "reactstrap";
+
+
 const index = () => {
     document.title = " Landing | Velzon - React Admin & Dashboard Template";
 
@@ -35,21 +39,27 @@ const index = () => {
 
     return (
         <React.Fragment>
-            <div className="layout-wrapper landing">
-                <Navbar />
-                <Home />
-                <GeneralAssemblyMeeting />
-                {/* <Products />
-                <Features />
-                <Trending />
-                <DiscoverItems />
-                <TopCreator />
-                <CTA /> */}
-                <Footer />
-                <button onClick={() => toTop()} className="btn btn-danger btn-icon landing-back-top" id="back-to-top">
-                    <i className="ri-arrow-up-line"></i>
-                </button>
-            </div>
+            <div className="page-content">
+                <Container fluid>
+
+                    <div className="layout-wrapper landing">
+                        {/* <Navbar /> */}
+                        <Home />
+                        <GeneralAssemblyMeeting />
+                        <Values />
+                        {/* <Products />
+                        <Features />
+                        <Trending />
+                        <DiscoverItems />
+                        <TopCreator />
+                        <CTA /> */}
+                        <button onClick={() => toTop()} className="btn btn-danger btn-icon landing-back-top" id="back-to-top">
+                            <i className="ri-arrow-up-line"></i>
+                        </button>
+                    </div>
+                </Container>
+            </div >
+
         </React.Fragment>
     );
 };
